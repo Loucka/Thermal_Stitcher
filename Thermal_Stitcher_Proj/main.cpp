@@ -80,7 +80,7 @@ bool InitializeStitcher ()
 
 int main()
 {
-	// Print splash output and.
+    // Print splash output.
     	DisplayMessage ("Beginning Thermal Stitcher...\n");
 
 	// Initialize Pan/Tilt Driver
