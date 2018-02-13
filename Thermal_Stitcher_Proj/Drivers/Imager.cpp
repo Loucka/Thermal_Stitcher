@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Imager.h"
+#include "Third-Party/Lepton/SPI.h"
 
 Imager::Imager() {
 	// TODO Auto-generated constructor stub
@@ -12,7 +13,12 @@ Imager::~Imager() {
 
 bool Imager::Initialize (void)
 {
-	return true;
+    return SpiOpenPort (0);
+}
+
+void Imager::CaptureImage ()
+{
+    std::cout << "Imager Capture";
 }
 
 void Imager::ProcessCommand (const char command [], int size)
@@ -22,7 +28,7 @@ void Imager::ProcessCommand (const char command [], int size)
 	if (size == 1)
 	{
 		if (command [0] == 'C')
-			std::cout << "Imager Capture";
+            CaptureImage ();
 		else
 			success = false;
 	}

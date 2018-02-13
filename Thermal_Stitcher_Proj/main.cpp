@@ -4,6 +4,7 @@
 #include "Drivers/TFT.h"
 #include "Modules/Retriever.h"
 #include "Modules/Stitcher.h"
+//#include <opencv2/opencv.hpp>
 
 
 PanTilt _panTilt;
@@ -80,6 +81,11 @@ bool InitializeStitcher ()
 
 int main()
 {
+    /*
+    cv::Mat inputImage = cv::imread("/home/christian/Pictures/test.png");
+    if(!inputImage.empty()) cv::imshow("Display Image", inputImage);
+    */
+
     // Print splash output.
     	DisplayMessage ("Beginning Thermal Stitcher...\n");
 

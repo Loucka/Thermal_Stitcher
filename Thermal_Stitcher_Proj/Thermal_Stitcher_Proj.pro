@@ -11,6 +11,9 @@ TARGET = Thermal_Stitcher_Proj
 CONFIG   += console
 CONFIG   -= app_bundle
 
+INCLUDEPATH += /usr/local/include/opencv2
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui
+
 TEMPLATE = app
 
 

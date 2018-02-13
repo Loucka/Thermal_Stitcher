@@ -8,6 +8,8 @@ class Imager
 		virtual ~Imager();
 		bool Initialize ();
 		void ProcessCommand (const char command [], int size);
+    private:
+        void CaptureImage ();
 };
 
 #endif /* IMAGER_H_ */
