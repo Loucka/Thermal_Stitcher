@@ -20,7 +20,7 @@ bool Imager::Initialize (void)
     // Open the SPI port and attempt to read in an image.
     std::cout << "\t\tOpening SPI Port\n";
     SpiOpenPort (0);
-    std::cout << "\t\tCapturing Test Image\n\t\t\t\t\t";
+    std::cout << "\t\tCapturing Test Image\n\t\t\t\t\t\t";
     return CaptureImage ();
 }
 
@@ -97,10 +97,7 @@ void Imager::ProcessImage ()
 
 bool Imager::CaptureImage ()
 {
-    std::cout << "Imager Raw Capture\n";
-
     ReadPackets ();
-
     ProcessImage ();
 
     return myImage.save("./Modules/Captures/raw_capture.png");
@@ -111,7 +108,10 @@ bool Imager::ProcessCommand (const char command [], int size)
 	if (size == 1)
 	{
 		if (command [0] == 'C')
+        {
+            std::cout << "Imager Raw Capture\n";
             return CaptureImage ();
+        }
 		else
             return false;
 	}
