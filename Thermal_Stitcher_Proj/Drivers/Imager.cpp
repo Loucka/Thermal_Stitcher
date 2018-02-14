@@ -23,59 +23,56 @@ bool Imager::Initialize (void)
     return true;
 }
 
-void Imager::CaptureImage ()
+void Imager::ReadPackets ()
 {
-    std::cout << "Imager Capture";
     //read data packets from lepton over SPI
     int resets = 0;
-    for(int j=0;j<PACKETS_PER_FRAME;j++)
+    for(int j=0; j<PACKETS_PER_FRAME; j++)
     {
         //if it's a drop packet, reset j to 0, set to -1 so he'll be at 0 again loop
-        read(spi_cs0_fd, result+sizeof(uint8_t)*PACKET_SIZE*j, sizeof(uint8_t)*PACKET_SIZE);
-        int packetNumber = result[j*PACKET_SIZE+1];
-        if(packetNumber != j) {
+        read (spi_cs0_fd, result + sizeof (uint8_t) * PACKET_SIZE * j, sizeof (uint8_t)* PACKET_SIZE);
+        int packetNumber = result [j*PACKET_SIZE+1];
+        if(packetNumber != j)
+        {
             j = -1;
             resets += 1;
             usleep(1000);
             //Note: we've selected 750 resets as an arbitrary limit, since there should never be 750 "null" packets between two valid transmissions at the current poll rate
             //By polling faster, developers may easily exceed this count, and the down period between frames may then be flagged as a loss of sync
-            if(resets == 750) {
+            if(resets == 750)
+            {
                 SpiClosePort(0);
                 usleep(750000);
                 SpiOpenPort(0);
             }
         }
     }
-    if(resets >= 30)
-    {
-        std::cout << "done reading, resets: " << resets;
-    }
+}
 
+void Imager::ProcessImage ()
+{
     frameBuffer = (uint16_t *)result;
     int row, column;
     uint16_t value;
     uint16_t minValue = 65535;
     uint16_t maxValue = 0;
-
-
-    for(int i=0;i<FRAME_SIZE_UINT16;i++) {
+    for(int i=0;i<FRAME_SIZE_UINT16;i++)
+    {
         //skip the first 2 uint16_t's of every packet, they're 4 header bytes
-        if(i % PACKET_SIZE_UINT16 < 2) {
+        if(i % PACKET_SIZE_UINT16 < 2)
             continue;
-        }
 
         //flip the MSB and LSB at the last second
         int temp = result[i*2];
         result[i*2] = result[i*2+1];
         result[i*2+1] = temp;
 
-        value = frameBuffer[i];
-        if(value > maxValue) {
+        value = frameBuffer [i];
+        if (value > maxValue)
             maxValue = value;
-        }
-        if(value < minValue) {
+        if (value < minValue)
             minValue = value;
-        }
+
         column = i % PACKET_SIZE_UINT16 - 2;
         row = i / PACKET_SIZE_UINT16 ;
     }
@@ -83,10 +80,11 @@ void Imager::CaptureImage ()
     float diff = maxValue - minValue;
     float scale = 255/diff;
     QRgb color;
-    for(int i=0;i<FRAME_SIZE_UINT16;i++) {
-        if(i % PACKET_SIZE_UINT16 < 2) {
+    for(int i=0;i<FRAME_SIZE_UINT16;i++)
+    {
+        if(i % PACKET_SIZE_UINT16 < 2)
             continue;
-        }
+
         value = (frameBuffer[i] - minValue) * scale;
         const int *colormap = colormap_ironblack;
         color = qRgb(colormap[3*value], colormap[3*value+1], colormap[3*value+2]);
@@ -94,28 +92,28 @@ void Imager::CaptureImage ()
         row = i / PACKET_SIZE_UINT16;
         myImage.setPixel(column, row, color);
     }
-    if (myImage.save("./Modules/Captures/raw_capture.png"))
-	std::cout << "Image Saved";
-    else
-	std::cout << "Failed";
 }
 
-void Imager::ProcessCommand (const char command [], int size)
+bool Imager::CaptureImage ()
 {
-	bool success = true;
+    std::cout << "Imager Raw Capture\n";
 
+    ReadPackets ();
+
+    ProcessImage ();
+
+    return myImage.save("./Modules/Captures/raw_capture.png");
+}
+
+bool Imager::ProcessCommand (const char command [], int size)
+{
 	if (size == 1)
 	{
 		if (command [0] == 'C')
-            CaptureImage ();
+            return CaptureImage ();
 		else
-			success = false;
+            return false;
 	}
-	else
-		success = false;
 
-	if (!success)
-		std::cout << "Imager Unknown";
-
-	std::cout << "\n";
+    return false;
 }

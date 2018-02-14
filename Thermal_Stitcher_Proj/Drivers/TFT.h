@@ -7,7 +7,7 @@ class TFT
 		TFT();
 		virtual ~TFT();
 		bool Initialize ();
-		void ProcessCommand (const char command [], int size);
+        bool ProcessCommand (const char command [], int size);
 };
 
 #endif /* TFT_H_ */

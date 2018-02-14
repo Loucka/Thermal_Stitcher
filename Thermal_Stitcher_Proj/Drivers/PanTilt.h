@@ -7,7 +7,18 @@ class PanTilt
 		PanTilt();
 		virtual ~PanTilt();
 		bool Initialize ();
-		void ProcessCommand (const char command [], int size);
+        bool ProcessCommand (const char command [], int size);
+    private:
+        bool PanRight ();
+        bool PanLeft ();
+        bool PanStop ();
+        bool TiltUp ();
+        bool TiltDown ();
+        bool TiltStop ();
+        bool PanVelocity ();
+        bool TiltVelocity ();
+        bool PanPosition ();
+        bool TiltPosition ();
 };
 
 #endif /* PANTILT_H_ */

@@ -16,9 +16,11 @@ class Imager
 		Imager();
 		virtual ~Imager();
 		bool Initialize ();
-		void ProcessCommand (const char command [], int size);
+        bool ProcessCommand (const char command [], int size);
     private:
-        void CaptureImage ();
+        bool CaptureImage ();
+        void ReadPackets ();
+        void ProcessImage ();
         QImage myImage;
         uint8_t result[PACKET_SIZE*PACKETS_PER_FRAME];
         uint16_t *frameBuffer;

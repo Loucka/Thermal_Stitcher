@@ -27,16 +27,16 @@ bool ProcessCommand (std::string input)
 		length--;
 
 		if (length == 1 && cstr [1] == 'X')
-			return false;
+            exit (0);
 		if (length > 1 && cstr [1] == 'P' && cstr [2] == 'T')
-			_panTilt.ProcessCommand(cstr + 3, length - 2);	// Forward to PanTilt
+            return _panTilt.ProcessCommand(cstr + 3, length - 2);	// Forward to PanTilt
 		else if (length > 1 && cstr [1] == 'I' && cstr [2] == 'R')
-			_imager.ProcessCommand(cstr + 3, length - 2);	// Forward to Imager
+            return _imager.ProcessCommand(cstr + 3, length - 2);	// Forward to Imager
 		else if (length > 0 && cstr [1] == 'D')
-			_tft.ProcessCommand(cstr + 2, length - 1);
+            return _tft.ProcessCommand(cstr + 2, length - 1);
 	}
 
-	return true;
+    return false;
 }
 
 bool EvaluateInitialization (bool success)
@@ -87,7 +87,7 @@ int main()
     */
 
     // Print splash output.
-    	DisplayMessage ("Beginning Thermal Stitcher...\n");
+    DisplayMessage ("Beginning Thermal Stitcher...\n");
 
 	// Initialize Pan/Tilt Driver
 	if (!InitializePanTilt ())
@@ -114,8 +114,8 @@ int main()
 	while (true)
 	{
 		std::cin >> input;
-		if (!ProcessCommand (input))
-			break;
+        if (!ProcessCommand (input))
+            std::cout << "Error Processing Command: " + input + "\n";
 	}
 
     return 0;

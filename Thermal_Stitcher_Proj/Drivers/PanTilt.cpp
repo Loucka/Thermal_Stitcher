@@ -17,70 +17,105 @@ bool PanTilt::Initialize (void)
 	return true;
 }
 
-void PanTilt::ProcessCommand (const char command [], int size)
+bool PanTilt::PanRight ()
 {
-	bool success = true;
+    std::cout << "Pan Right\n";
+    return true;
+}
 
-	if (size == 2)							// Direction
+bool PanTilt::PanLeft ()
+{
+    std::cout << "Pan Left\n";
+    return true;
+}
+
+bool PanTilt::PanStop ()
+{
+    std::cout << "Pan Stop\n";
+    return true;
+}
+
+bool PanTilt::PanVelocity ()
+{
+    std::cout << "Pan Velocity\n";
+    return true;
+}
+
+bool PanTilt::TiltVelocity ()
+{
+    std::cout << "Tilt Velocity\n";
+    return true;
+}
+
+bool PanTilt::TiltPosition ()
+{
+    std::cout << "Tilt Position\n";
+    return true;
+}
+
+bool PanTilt::PanPosition ()
+{
+    std::cout << "Pan Position\n";
+    return true;
+}
+
+bool PanTilt::ProcessCommand (const char command [], int size)
+{
+    if (size == 2)                    // Direction
 	{
-		if (command [0] == 'P')
+        if (command [0] == 'P')                 // Pan
 		{
 			if (command [1] == 'R')
-				std::cout << "Pan Right";
+                return PanRight ();
 			else if (command [1] == 'L')
-				std::cout << "Pan Left";
+                return PanLeft ();
 			else if (command [1] == 'S')
-				std::cout << "Pan Stop";
+                return PanStop ();
 			else
-				success = false;
+                return false;
 		}
-		else if (command [0] == 'T')
+        else if (command [0] == 'T')            // Tilt
 		{
 			if (command [1] == 'U')
-				std::cout << "Tilt Up";
+                std::cout << "Tilt Up\n";
 			else if (command [1] == 'D')
-				std::cout << "Tilt Down";
+                std::cout << "Tilt Down\n";
 			else if (command [1] == 'S')
-				std::cout << "Tilt Stop";
+                std::cout << "Tilt Stop\n";
 			else
-				success = false;
+                return false;
 		}
 		else
-			success = false;
+            return false;
 	}
-	else if (size == 3)						// Velocity
+    else if (size == 3)               // Velocity
 	{
 		if (command [1] == 'V')
 		{
 			if (command [0] == 'P')
-				std::cout << "Pan Velocity";
+                return PanVelocity ();
 			else if (command [0] == 'T')
-				std::cout << "Tilt Velocity";
+                return TiltVelocity ();
 			else
-				success = false;
+                return false;
 		}
 		else
-			success = false;
+            return false;
 	}
-	else if (size == 4)						// Position (Tilt)
+    else if (size == 4)               // Position (Tilt)
 	{
 		if (command [0] == 'T' && command [1] == 'P')
-			std::cout << "Tilt Position";
+            return TiltPosition ();
 		else
-			success = false;
+            return false;
 	}
-	else if (size == 5)						// Position (Pan)
+    else if (size == 5)               // Position (Pan)
 	{
 		if (command [0] == 'P' && command [1] == 'P')
-			std::cout << "Pan Position";
+            return PanPosition ();
 		else
-			success = false;
+            return false;
 	}
-	else
-		success = false;
 
-	if (!success)
-		std::cout << "Pan/Tilt Unknown";
-
-	std::cout << "\n";
+    return false;
 }
