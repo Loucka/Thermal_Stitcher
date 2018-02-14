@@ -17,10 +17,9 @@ bool Imager::Initialize (void)
     //create the initial image
     myImage = QImage(80, 60, QImage::Format_RGB888);
 
+    // Open the SPI port and attempt to read in an image.
     SpiOpenPort (0);
-
-    // Attempt to pull in image.
-    return true;
+    return CaptureImage ();
 }
 
 void Imager::ReadPackets ()
