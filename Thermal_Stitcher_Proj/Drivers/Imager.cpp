@@ -94,8 +94,10 @@ void Imager::CaptureImage ()
         row = i / PACKET_SIZE_UINT16;
         myImage.setPixel(column, row, color);
     }
-
-    myImage.save("testCapture", 0, -1);
+    if (myImage.save("./Modules/Captures/raw_capture.png"))
+	std::cout << "Image Saved";
+    else
+	std::cout << "Failed";
 }
 
 void Imager::ProcessCommand (const char command [], int size)
