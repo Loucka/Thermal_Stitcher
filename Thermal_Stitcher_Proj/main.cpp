@@ -57,7 +57,7 @@ bool InitializePanTilt ()
 
 bool InitializeImager ()
 {
-	DisplayMessage ("\tInitializing Imager Driver\t\t");
+    DisplayMessage ("\tInitializing Imager Driver\n");
 	return EvaluateInitialization (_imager.Initialize ());
 }
 
