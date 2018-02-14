@@ -18,6 +18,8 @@ bool Imager::Initialize (void)
     myImage = QImage(80, 60, QImage::Format_RGB888);
 
     SpiOpenPort (0);
+
+    // Attempt to pull in image.
     return true;
 }
 
@@ -92,6 +94,8 @@ void Imager::CaptureImage ()
         row = i / PACKET_SIZE_UINT16;
         myImage.setPixel(column, row, color);
     }
+
+    myImage.save("testCapture", 0, -1);
 }
 
 void Imager::ProcessCommand (const char command [], int size)
