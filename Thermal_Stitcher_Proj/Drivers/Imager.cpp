@@ -3,15 +3,6 @@
 #include "Third-Party/Lepton/SPI.h"
 #include "Third-Party/Lepton/Palettes.h"
 
-Imager::Imager() {
-	// TODO Auto-generated constructor stub
-
-}
-
-Imager::~Imager() {
-	// TODO Auto-generated destructor stub
-}
-
 bool Imager::Initialize (void)
 {
     //create the initial image

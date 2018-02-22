@@ -13,8 +13,6 @@
 class Imager
 {
 	public:
-		Imager();
-		virtual ~Imager();
 		bool Initialize ();
         bool ProcessCommand (const char command [], int size);
         bool CaptureImage ();
