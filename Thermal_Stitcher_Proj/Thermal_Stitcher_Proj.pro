@@ -21,7 +21,6 @@ SOURCES += \
     main.cpp \
     Drivers/Imager.cpp \
     Drivers/PanTilt.cpp \
-    Drivers/TFT.cpp \
     Modules/Retriever.cpp \
     Modules/Stitcher.cpp \
     Third-Party/Lepton/Lepton_I2C.cpp \
@@ -36,12 +35,12 @@ SOURCES += \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_I2C_Service.c \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_SDK.c \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_SYS.c \
-    Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_VID.c
+    Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_VID.c \
+    Drivers/Display.cpp
 
 HEADERS += \
     Drivers/Imager.h \
     Drivers/PanTilt.h \
-    Drivers/TFT.h \
     Modules/Retriever.h \
     Modules/Stitcher.h \
     Third-Party/Lepton/Lepton_I2C.h \
@@ -61,7 +60,8 @@ HEADERS += \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_SDKConfig.h \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_SYS.h \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_Types.h \
-    Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_VID.h
+    Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_VID.h \
+    Drivers/Display.h
 
 SUBDIRS += \
     Third-Party/Lepton/raspberrypi_video.pro

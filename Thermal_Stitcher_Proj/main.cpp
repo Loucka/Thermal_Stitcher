@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Drivers/PanTilt.h"
 #include "Drivers/Imager.h"
-#include "Drivers/TFT.h"
+#include "Drivers/Display.h"
 #include "Modules/Retriever.h"
 #include "Modules/Stitcher.h"
 //#include <opencv2/opencv.hpp>
@@ -9,7 +9,7 @@
 
 PanTilt _panTilt;
 Imager _imager;
-TFT _tft;
+Display _Display;
 Retriever _retriever;
 Stitcher _stitcher;
 
@@ -33,7 +33,7 @@ bool ProcessCommand (std::string input)
 		else if (length > 1 && cstr [1] == 'I' && cstr [2] == 'R')
             return _imager.ProcessCommand(cstr + 3, length - 2);	// Forward to Imager
 		else if (length > 0 && cstr [1] == 'D')
-            return _tft.ProcessCommand(cstr + 2, length - 1);
+            return _Display.ProcessCommand(cstr + 2, length - 1);
 	}
 
     return false;
@@ -61,15 +61,18 @@ bool InitializeImager ()
 	return EvaluateInitialization (_imager.Initialize ());
 }
 
-bool InitializeTFT ()
+bool InitializeDisplay ()
 {
-	DisplayMessage ("\tInitializing TFT Display Driver\t\t");
-	return EvaluateInitialization (_tft.Initialize ());
+    DisplayMessage ("\tInitializing Display Display Driver\t\t");
+    return EvaluateInitialization (_Display.Initialize ());
 }
 
 bool InitializeRetriever ()
 {
 	DisplayMessage ("\tInitializing Retrieving Module\t\t");
+
+    // Retrieving module needs a reference to the PT Driver along with
+    // the Imager Driver. Pass these in on initialization.
 	return EvaluateInitialization (_retriever.Initialize ());
 }
 
@@ -97,8 +100,8 @@ int main()
 	if (!InitializeImager ())
 		return -1;
 
-	// Initialize TFT Driver
-	if (!InitializeTFT ())
+    // Initialize Display Driver
+    if (!InitializeDisplay ())
 		return -1;
 
 	// Initialize Retrieving Module
