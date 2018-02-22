@@ -1,23 +1,23 @@
 #include <iostream>
-#include "TFT.h"
+#include "Display.h"
 
-TFT::TFT()
+Display::Display()
 {
 	// TODO Auto-generated constructor stub
 
 }
 
-TFT::~TFT()
+Display::~Display()
 {
 	// TODO Auto-generated destructor stub
 }
 
-bool TFT::Initialize (void)
+bool Display::Initialize (void)
 {
 	return true;
 }
 
-bool TFT::ProcessCommand (const char command [], int size)
+bool Display::ProcessCommand (const char command [], int size)
 {
     //# Use command to avoid warning for now.
     if (command [0] == command [0])
@@ -25,7 +25,7 @@ bool TFT::ProcessCommand (const char command [], int size)
 
 	if (size == 11)
 	{
-        std::cout << "TFT Display\n";
+        std::cout << "Display Display\n";
         return true;
 	}
 
