@@ -1,19 +1,28 @@
 #include "Retriever.h"
 
-void Retriever::RetrievalThread (int rows, int columns, PanTilt panTilt, Imager imager)
+void Retriever::RetrievalThread ()
 {
     std::cout << "Beginning Retrieval\n";
     int iCurrentRow;
     int iCurrentColumn;
 
-    for (iCurrentRow = 0; iCurrentRow < rows; iCurrentRow++)
+    for (iCurrentRow = 0; iCurrentRow < _iRows; iCurrentRow++)
     {
-        for (iCurrentColumn = 0; iCurrentColumn < columns; iCurrentColumn++)
+        for (iCurrentColumn = 0; iCurrentColumn < _iColumns; iCurrentColumn++)
         {
             // Direct the PanTilt to the appropriate
             // station. Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
+
+
+            //# This is a test.
             std::this_thread::sleep_for (std::chrono::seconds(1));
+            if (_imager.CaptureImage ())
+            {
+                //QFile::copy(ORIG_FILE, CAPTURE_DIRECTORY +
+                          // "[" + std::to_string(iCurrentRow) + "],[" +
+                            //std::to_string(iCurrentColumn) + "].png");
+            }
         }
     }
 
@@ -34,10 +43,12 @@ void Retriever::SetRows(int rows)
 
 void Retriever::BeginCapture ()
 {
-    std::cout << "Capture Initiated\n";
+    if (RunningState == running)
+        return;
+
     RunningState = running;
     _retrievalThread = std::thread
-            (&Retriever::RetrievalThread, this, _iRows, _iColumns, _panTilt, _imager);
+            (&Retriever::RetrievalThread, this);
     _retrievalThread.join();
 }
 

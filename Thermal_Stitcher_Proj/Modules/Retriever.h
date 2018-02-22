@@ -1,5 +1,6 @@
 #ifndef RETRIEVER_H_
 #define RETRIEVER_H_
+#include <QFile>
 #include <iostream>
 #include <thread>
 #include "Drivers/PanTilt.h"
@@ -22,8 +23,11 @@ class Retriever
         Imager _imager;                 // Reference to Imager Driver.
         int _iRows;                     // Number of rows to capture.
         int _iColumns;                  // Number of columns to capture.
-        void RetrievalThread (int rows, int columns, PanTilt panTilt, Imager imager);        // Executes actual retrieving
+        void RetrievalThread ();        // Executes actual retrieving
         std::thread _retrievalThread;   // Manages the retrieving action.
+        bool CopyImage (std::string newName);
+        const std::string CAPTURE_DIRECTORY = "./Modules/Captures/";
+        const std::string ORIG_FILE = CAPTURE_DIRECTORY + "raw_capture.png";
 };
 
 #endif /* Retriever_H_ */

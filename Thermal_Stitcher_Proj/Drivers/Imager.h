@@ -17,8 +17,8 @@ class Imager
 		virtual ~Imager();
 		bool Initialize ();
         bool ProcessCommand (const char command [], int size);
-    private:
         bool CaptureImage ();
+    private:
         void ReadPackets ();
         void ProcessImage ();
         QImage myImage;
