@@ -10,6 +10,8 @@ void Retriever::RetrievalThread ()
     {
         for (iCurrentColumn = 0; iCurrentColumn < _iColumns; iCurrentColumn++)
         {
+            if (RunningState == idle)
+                return;
             // Direct the PanTilt to the appropriate
             // station. Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
@@ -17,12 +19,14 @@ void Retriever::RetrievalThread ()
 
             //# This is a test.
             std::this_thread::sleep_for (std::chrono::seconds(1));
+            /*
             if (_imager.CaptureImage ())
             {
                 //QFile::copy(ORIG_FILE, CAPTURE_DIRECTORY +
                           // "[" + std::to_string(iCurrentRow) + "],[" +
                             //std::to_string(iCurrentColumn) + "].png");
             }
+            */
         }
     }
 
@@ -49,7 +53,7 @@ void Retriever::BeginCapture ()
     RunningState = running;
     _retrievalThread = std::thread
             (&Retriever::RetrievalThread, this);
-    _retrievalThread.join();
+    _retrievalThread.detach();
 }
 
 void Retriever::PauseCapture ()
@@ -60,6 +64,7 @@ void Retriever::PauseCapture ()
 void Retriever::ResetCapture ()
 {
     std::cout << "Capture Reset\n";
+    RunningState = idle;
 }
 
 bool Retriever::Initialize (PanTilt &panTilt, Imager &imager)
@@ -90,6 +95,7 @@ bool Retriever::ProcessCommand (const char command [], int size)
         }
         else if (command [0] == 'R')
         {
+            ResetCapture ();
             return true;
         }
         else if (command [1] == 'P')
