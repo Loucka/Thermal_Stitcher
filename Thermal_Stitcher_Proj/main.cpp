@@ -9,7 +9,7 @@
 
 PanTilt _panTilt;
 Imager _imager;
-Display _Display;
+Display _display;
 Retriever _retriever;
 Stitcher _stitcher;
 
@@ -33,7 +33,9 @@ bool ProcessCommand (std::string input)
 		else if (length > 1 && cstr [1] == 'I' && cstr [2] == 'R')
             return _imager.ProcessCommand(cstr + 3, length - 2);	// Forward to Imager
 		else if (length > 0 && cstr [1] == 'D')
-            return _Display.ProcessCommand(cstr + 2, length - 1);
+            return _display.ProcessCommand(cstr + 2, length - 1);   // Forward to Display
+        else if (length > 0 && cstr [1] == 'R')
+            return _retriever.ProcessCommand (cstr + 2, length - 1);
 	}
 
     return false;
@@ -64,7 +66,7 @@ bool InitializeImager ()
 bool InitializeDisplay ()
 {
     DisplayMessage ("\tInitializing Display Display Driver\t\t");
-    return EvaluateInitialization (_Display.Initialize ());
+    return EvaluateInitialization (_display.Initialize ());
 }
 
 bool InitializeRetriever ()
@@ -73,7 +75,7 @@ bool InitializeRetriever ()
 
     // Retrieving module needs a reference to the PT Driver along with
     // the Imager Driver. Pass these in on initialization.
-	return EvaluateInitialization (_retriever.Initialize ());
+    return EvaluateInitialization (_retriever.Initialize (_panTilt, _imager));
 }
 
 bool InitializeStitcher ()
@@ -97,8 +99,8 @@ int main()
 		return -1;
 
 	// Initialize Imager Driver
-	if (!InitializeImager ())
-		return -1;
+    //if (!InitializeImager ())
+      //  return -1;
 
     // Initialize Display Driver
     if (!InitializeDisplay ())

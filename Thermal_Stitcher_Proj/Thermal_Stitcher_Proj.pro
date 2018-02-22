@@ -9,6 +9,7 @@ QT       += widgets
 
 TARGET = Thermal_Stitcher_Proj
 CONFIG   += console
+CONFIG   += c++11
 CONFIG   -= app_bundle
 
 INCLUDEPATH += /usr/local/include/opencv2
