@@ -16,19 +16,19 @@ void Retriever::RetrievalThread ()
     std::cout << "Beginning Retrieval\n";
     int iCurrentRow;
     int iCurrentColumn;
+    bool bContinue;
 
     for (iCurrentRow = 0; iCurrentRow < _iRows; iCurrentRow++)
     {
+        bContinue = false;
         for (iCurrentColumn = 0; iCurrentColumn < _iColumns; iCurrentColumn++)
         {
             if (RunningState == idle)
                 return;
             if (RunningState == paused)
             {
-                while (RunningState == paused)
-                {
-                    // wait.
-                }
+                bContinue = true;
+                continue;
             }
 
             /*
@@ -61,6 +61,12 @@ void Retriever::RetrievalThread ()
                 RunningState = failed;
                 return;
             }
+        }
+
+        if (bContinue)
+        {
+            iCurrentRow--;
+            iCurrentColumn--;
         }
     }
 
