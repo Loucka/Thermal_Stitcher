@@ -145,7 +145,7 @@ bool Retriever::ProcessCommand (const char command [], int size)
             ResetCapture ();
             return true;
         }
-        else if (command [1] == 'P')
+        else if (command [0] == 'P')
         {
             PauseCapture ();
             return true;
