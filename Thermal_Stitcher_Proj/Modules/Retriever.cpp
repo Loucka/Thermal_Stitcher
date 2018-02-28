@@ -108,10 +108,14 @@ void Retriever::PauseCapture ()
         std::cout << "Capture Resumed\n";
         RunningState = running;
     }
-    else
+    else if (RunningState == running)
     {
         std::cout << "Capture Paused\n";
         RunningState = paused;
+    }
+    else
+    {
+        std::cout << "No Capture in progress\n";
     }
 }
 
