@@ -24,7 +24,11 @@ void Retriever::RetrievalThread ()
             if (RunningState == idle)
                 return;
             if (RunningState == paused)
+            {
+                iCurrentRow--;
+                iCurrentColumn--;
                 continue;
+            }
 
             /*
             // Direct the PanTilt to the appropriate
@@ -52,8 +56,9 @@ void Retriever::RetrievalThread ()
             else
             {
                 // Bail if an error is received.
-                std::cout << "Error pulling in images. Resetting";
+                std::cout << "Error pulling in images. Bailing";
                 RunningState = failed;
+                return;
             }
         }
     }
@@ -91,7 +96,16 @@ void Retriever::BeginCapture ()
 
 void Retriever::PauseCapture ()
 {
-    std::cout << "Capture Paused\n";
+    if (RunningState == paused)
+    {
+        std::cout << "Capture Resumed\n";
+        RunningState = running;
+    }
+    else
+    {
+        std::cout << "Capture Paused\n";
+        RunningState = paused;
+    }
 }
 
 void Retriever::ResetCapture ()
@@ -133,7 +147,7 @@ bool Retriever::ProcessCommand (const char command [], int size)
         }
         else if (command [1] == 'P')
         {
-            RunningState = paused;
+            PauseCapture ();
             return true;
         }
         else

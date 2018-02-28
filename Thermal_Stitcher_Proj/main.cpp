@@ -65,7 +65,7 @@ bool InitializeImager ()
 
 bool InitializeDisplay ()
 {
-    DisplayMessage ("\tInitializing Display Display Driver\t\t");
+    DisplayMessage ("\tInitializing Display Driver\t\t");
     return EvaluateInitialization (_display.Initialize ());
 }
 
