@@ -99,8 +99,8 @@ int main()
 		return -1;
 
 	// Initialize Imager Driver
-    //if (!InitializeImager ())
-      //  return -1;
+    if (!InitializeImager ())
+        return -1;
 
     // Initialize Display Driver
     if (!InitializeDisplay ())

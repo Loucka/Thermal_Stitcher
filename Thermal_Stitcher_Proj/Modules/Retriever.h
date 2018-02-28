@@ -1,6 +1,7 @@
 #ifndef RETRIEVER_H_
 #define RETRIEVER_H_
 #include <QFile>
+#include <QString>
 #include <iostream>
 #include <thread>
 #include "Drivers/PanTilt.h"
@@ -20,8 +21,8 @@ class Retriever
         void SetRows (int rows);
         void SetColumns (int columns);
     private:
-        const std::string CAPTURE_DIRECTORY = "./Modules/Captures/";
-        const std::string ORIG_FILE = CAPTURE_DIRECTORY + "raw_capture.png";
+        const QString CAPTURE_DIRECTORY = QString ("./Modules/Captures/");
+        const QString ORIG_FILE = QString (CAPTURE_DIRECTORY + "raw_capture.png");
         PanTilt _panTilt;               // Reference to PanTilt Driver.
         Imager _imager;                 // Reference to Imager Driver.
         int _iRows;                     // Number of rows to capture.

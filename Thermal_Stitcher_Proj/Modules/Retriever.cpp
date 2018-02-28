@@ -19,14 +19,11 @@ void Retriever::RetrievalThread ()
 
             //# This is a test.
             std::this_thread::sleep_for (std::chrono::seconds(1));
-            /*
             if (_imager.CaptureImage ())
             {
-                //QFile::copy(ORIG_FILE, CAPTURE_DIRECTORY +
-                          // "[" + std::to_string(iCurrentRow) + "],[" +
-                            //std::to_string(iCurrentColumn) + "].png");
+                QString newFile = QString (CAPTURE_DIRECTORY + "[%1],[%2].png").arg(iCurrentRow).arg(iCurrentColumn);
+                QFile::copy(ORIG_FILE, newFile);
             }
-            */
         }
     }
 
