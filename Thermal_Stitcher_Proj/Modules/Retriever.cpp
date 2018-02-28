@@ -25,9 +25,10 @@ void Retriever::RetrievalThread ()
                 return;
             if (RunningState == paused)
             {
-                iCurrentRow--;
-                iCurrentColumn--;
-                continue;
+                while (RunningState == paused)
+                {
+                    // wait.
+                }
             }
 
             /*
