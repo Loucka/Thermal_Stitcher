@@ -1,5 +1,16 @@
 #include "Retriever.h"
 
+void Retriever::PurgeCaptureDirectory()
+{
+    QDir dir(CAPTURE_DIRECTORY);
+    dir.setNameFilters(QStringList() << "*.*");
+    dir.setFilter(QDir::Files);
+    foreach(QString dirFile, dir.entryList())
+    {
+        dir.remove(dirFile);
+    }
+}
+
 void Retriever::RetrievalThread ()
 {
     std::cout << "Beginning Retrieval\n";
@@ -12,17 +23,37 @@ void Retriever::RetrievalThread ()
         {
             if (RunningState == idle)
                 return;
+            if (RunningState == paused)
+                continue;
+
+            /*
             // Direct the PanTilt to the appropriate
-            // station. Once approached, retrieve an image
+            // station.
+            _panTilt.PanPosition()
+            _panTilt.TiltPosition();
+            while (_panTilt.SeekingPan)
+            {
+                // wait until timeout. Bail if received.
+                RunningState = failed;
+            }
+            */
+
+            // Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
-
-
-            //# This is a test.
+            //# This is a test. We're only polling for test photos.
             std::this_thread::sleep_for (std::chrono::seconds(1));
             if (_imager.CaptureImage ())
             {
-                QString newFile = QString (CAPTURE_DIRECTORY + "[%1],[%2].png").arg(iCurrentRow).arg(iCurrentColumn);
+                QString newFile = QString
+                        (CAPTURE_DIRECTORY + "[%1],[%2].png")
+                        .arg(iCurrentRow).arg(iCurrentColumn);
                 QFile::copy(ORIG_FILE, newFile);
+            }
+            else
+            {
+                // Bail if an error is received.
+                std::cout << "Error pulling in images. Resetting";
+                RunningState = failed;
             }
         }
     }
@@ -46,6 +77,11 @@ void Retriever::BeginCapture ()
 {
     if (RunningState == running)
         return;
+
+    // Purge the capture directory before
+    // beginning any new capture.
+    PurgeCaptureDirectory();
+
 
     RunningState = running;
     _retrievalThread = std::thread
@@ -97,6 +133,7 @@ bool Retriever::ProcessCommand (const char command [], int size)
         }
         else if (command [1] == 'P')
         {
+            RunningState = paused;
             return true;
         }
         else

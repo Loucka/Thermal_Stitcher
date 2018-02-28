@@ -1,6 +1,7 @@
 #ifndef RETRIEVER_H_
 #define RETRIEVER_H_
 #include <QFile>
+#include <QDir>
 #include <QString>
 #include <iostream>
 #include <thread>
@@ -31,6 +32,7 @@ class Retriever
 
         void RetrievalThread ();        // Executes actual retrieving
         bool CopyImage (std::string newName);
+        void PurgeCaptureDirectory ();
 };
 
 #endif /* Retriever_H_ */
