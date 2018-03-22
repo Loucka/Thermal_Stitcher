@@ -86,6 +86,7 @@ bool InitializeStitcher ()
 
 int main()
 {
+    //Bullshit
     /*
     cv::Mat inputImage = cv::imread("/home/christian/Pictures/test.png");
     if(!inputImage.empty()) cv::imshow("Display Image", inputImage);
