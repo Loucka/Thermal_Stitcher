@@ -11,7 +11,13 @@ class TStitcher
         TStitcher();
         virtual ~TStitcher();
 		bool Initialize ();
-		void ProcessCommand (const char command [], int size);
+        bool ProcessCommand (const char command [], int size);
+        void BeginStitching ();
+        void PauseStitching ();
+        void ResetStitching ();
+    private:
+        cv::Stitcher stitcher;
+
 };
 
 #endif /* TStitcher_H_ */

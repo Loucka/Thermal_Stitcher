@@ -4,8 +4,6 @@
 #include "Drivers/Display.h"
 #include "Modules/Retriever.h"
 #include "Modules/TStitcher.h"
-//#include <opencv2/opencv.hpp>
-
 
 PanTilt _panTilt;
 Imager _imager;
@@ -35,7 +33,9 @@ bool ProcessCommand (std::string input)
 		else if (length > 0 && cstr [1] == 'D')
             return _display.ProcessCommand(cstr + 2, length - 1);   // Forward to Display
         else if (length > 0 && cstr [1] == 'R')
-            return _retriever.ProcessCommand (cstr + 2, length - 1);
+            return _retriever.ProcessCommand (cstr + 2, length - 1);// Forward to Retriever
+        else if (length > 0 && cstr [1] == 'S')
+            return _stitcher.ProcessCommand(cstr + 2, length - 1);  // Forward to Stitcher
 	}
 
     return false;
@@ -86,11 +86,6 @@ bool InitializeStitcher ()
 
 int main()
 {
-    /*
-    cv::Mat inputImage = cv::imread("/home/christian/Pictures/test.png");
-    if(!inputImage.empty()) cv::imshow("Display Image", inputImage);
-    */
-
     // Print splash output.
     DisplayMessage ("Beginning Thermal Stitcher...\n");
 
