@@ -11,7 +11,7 @@ TStitcher::~TStitcher() {
 
 bool TStitcher::Initialize (void)
 {
-    Stitcher stitcher = Stitcher::createDefault (false);
+    cv::Stitcher stitcher = cv::Stitcher::createDefault (false);
 	return true;
 }
 
