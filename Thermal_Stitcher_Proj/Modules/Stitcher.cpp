@@ -11,6 +11,7 @@ Stitcher::~Stitcher() {
 
 bool Stitcher::Initialize (void)
 {
+    Stitcher stitcher = Stitcher::createDefault (false);
 	return true;
 }
 
