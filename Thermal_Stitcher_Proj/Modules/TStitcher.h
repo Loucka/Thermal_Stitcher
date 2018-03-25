@@ -1,6 +1,7 @@
 #ifndef TSTITCHER_H_
 #define TSTITCHER_H_
 
+#include <iostream>
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/stitching.hpp"
