@@ -73,6 +73,9 @@ void Retriever::RetrievalThread ()
     // Once complete, change our running state.
     std::cout << "Retrieval Complete\n";
     RunningState = complete;
+
+    // Pass off information to the Stitcher.
+    _stitcher.BeginStitching (_iRows, _iColumns);
 }
 
 void Retriever::SetColumns(int columns)
@@ -125,12 +128,13 @@ void Retriever::ResetCapture ()
     RunningState = idle;
 }
 
-bool Retriever::Initialize (PanTilt &panTilt, Imager &imager)
+bool Retriever::Initialize (PanTilt &panTilt, Imager &imager, TStitcher &stitcher)
 {
     try
     {
         _panTilt = panTilt;
         _imager = imager;
+        _stitcher = stitcher;
         RunningState = idle;
         _iRows = 2;
         _iColumns = 4;

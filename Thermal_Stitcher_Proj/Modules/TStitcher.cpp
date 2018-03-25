@@ -1,24 +1,21 @@
 #include "TStitcher.h"
 
-TStitcher::TStitcher() {
-	// TODO Auto-generated constructor stub
-
-}
-
-TStitcher::~TStitcher() {
-	// TODO Auto-generated destructor stub
-}
-
 bool TStitcher::Initialize (void)
 {
     // Initialize the stitcher.
-    stitcher = cv::Stitcher::createDefault (false);
+    _stitcher = cv::Stitcher::createDefault (false);
 	return true;
 }
 
-void TStitcher::BeginStitching ()
+void TStitcher::BeginStitching (int rows, int columns)
 {
     std::cout << "Beginning Stitching\n";
+    std::cout << "\tRows: " << rows << "\n";
+    std::cout << "\tColumns: " << columns << "\n";
+
+    // Retrieve number of rows and columns.
+    // Count number of files. Should be odd. Subtract 1.
+
 }
 
 void TStitcher::PauseStitching ()
@@ -29,30 +26,4 @@ void TStitcher::PauseStitching ()
 void TStitcher::ResetStitching ()
 {
 
-}
-
-bool TStitcher::ProcessCommand (const char command [], int size)
-{
-    if (size == 1)
-    {
-        if (command [0] == 'B')
-        {
-            BeginStitching ();
-            return true;
-        }
-        else if (command [0] == 'R')
-        {
-            ResetStitching ();
-            return true;
-        }
-        else if (command [0] == 'P')
-        {
-            PauseStitching ();
-            return true;
-        }
-        else
-            return false;
-    }
-    else
-        return false;
 }

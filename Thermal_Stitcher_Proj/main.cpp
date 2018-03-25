@@ -34,8 +34,6 @@ bool ProcessCommand (std::string input)
             return _display.ProcessCommand(cstr + 2, length - 1);   // Forward to Display
         else if (length > 0 && cstr [1] == 'R')
             return _retriever.ProcessCommand (cstr + 2, length - 1);// Forward to Retriever
-        else if (length > 0 && cstr [1] == 'S')
-            return _stitcher.ProcessCommand(cstr + 2, length - 1);  // Forward to Stitcher
 	}
 
     return false;
@@ -75,7 +73,7 @@ bool InitializeRetriever ()
 
     // Retrieving module needs a reference to the PT Driver along with
     // the Imager Driver. Pass these in on initialization.
-    return EvaluateInitialization (_retriever.Initialize (_panTilt, _imager));
+    return EvaluateInitialization (_retriever.Initialize (_panTilt, _imager, _stitcher));
 }
 
 bool InitializeStitcher ()
@@ -101,12 +99,12 @@ int main()
     if (!InitializeDisplay ())
 		return -1;
 
+    // Initialize Stitching Module
+    if (!InitializeStitcher ())
+        return -1;
+
 	// Initialize Retrieving Module
 	if (!InitializeRetriever ())
-		return -1;
-
-	// Initialize Stitching Module
-	if (!InitializeStitcher ())
 		return -1;
 
 	// Begin an infinite loop that will utilize these modules.

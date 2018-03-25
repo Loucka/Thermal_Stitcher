@@ -2,6 +2,7 @@
 #define TSTITCHER_H_
 
 #include <iostream>
+#include <QString>
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/stitching.hpp"
@@ -9,16 +10,12 @@
 class TStitcher
 {
 	public:
-        TStitcher();
-        virtual ~TStitcher();
 		bool Initialize ();
-        bool ProcessCommand (const char command [], int size);
-        void BeginStitching ();
+        void BeginStitching (int rows, int columns);
         void PauseStitching ();
         void ResetStitching ();
     private:
-        cv::Stitcher stitcher;
-
+        cv::Stitcher _stitcher;
 };
 
 #endif /* TStitcher_H_ */

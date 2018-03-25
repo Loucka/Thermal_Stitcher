@@ -7,6 +7,7 @@
 #include <thread>
 #include "Drivers/PanTilt.h"
 #include "Drivers/Imager.h"
+#include "Modules/TStitcher.h"
 
 class Retriever
 {
@@ -14,7 +15,7 @@ class Retriever
         enum RunningStates { running, paused, complete, failed, idle };
         RunningStates RunningState;   // Manages the state of running.
 
-        bool Initialize (PanTilt &panTilt, Imager &imager);
+        bool Initialize (PanTilt &panTilt, Imager &imager, TStitcher &stitcher);
         bool ProcessCommand (const char command [], int size);
         void BeginCapture ();
         void PauseCapture ();
@@ -26,6 +27,7 @@ class Retriever
         const QString ORIG_FILE = QString (CAPTURE_DIRECTORY + "raw_capture.png");
         PanTilt _panTilt;               // Reference to PanTilt Driver.
         Imager _imager;                 // Reference to Imager Driver.
+        TStitcher _stitcher;            // Reference to Stitching Module.
         int _iRows;                     // Number of rows to capture.
         int _iColumns;                  // Number of columns to capture.
         std::thread _retrievalThread;   // Manages the retrieving action.
