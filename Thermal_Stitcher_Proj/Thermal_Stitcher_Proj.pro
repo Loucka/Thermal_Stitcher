@@ -13,7 +13,7 @@ CONFIG   += c++11
 CONFIG   -= app_bundle
 
 INCLUDEPATH += /usr/local/include/opencv2
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui -lopencv_stitching
 
 TEMPLATE = app
 
