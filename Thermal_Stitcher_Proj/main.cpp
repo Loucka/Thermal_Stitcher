@@ -3,7 +3,7 @@
 #include "Drivers/Imager.h"
 #include "Drivers/Display.h"
 #include "Modules/Retriever.h"
-#include "Modules/Stitcher.h"
+#include "Modules/TStitcher.h"
 //#include <opencv2/opencv.hpp>
 
 
@@ -11,7 +11,7 @@ PanTilt _panTilt;
 Imager _imager;
 Display _display;
 Retriever _retriever;
-Stitcher _stitcher;
+TStitcher _stitcher;
 
 void DisplayMessage (std::string message)
 {

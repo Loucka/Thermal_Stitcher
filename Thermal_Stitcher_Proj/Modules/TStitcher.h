@@ -1,17 +1,17 @@
-#ifndef STITCHER_H_
-#define STITCHER_H_
+#ifndef TSTITCHER_H_
+#define TSTITCHER_H_
 
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/stitching.hpp"
 
-class Stitcher
+class TStitcher
 {
 	public:
-		Stitcher();
-		virtual ~Stitcher();
+        TStitcher();
+        virtual ~TStitcher();
 		bool Initialize ();
 		void ProcessCommand (const char command [], int size);
 };
 
-#endif /* Stitcher_H_ */
+#endif /* TStitcher_H_ */
