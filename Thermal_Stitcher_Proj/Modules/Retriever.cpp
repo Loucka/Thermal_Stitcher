@@ -136,7 +136,7 @@ bool Retriever::Initialize (PanTilt &panTilt, Imager &imager, TStitcher &stitche
         _imager = imager;
         _stitcher = stitcher;
         RunningState = idle;
-        _iRows = 2;
+        _iRows = 1;
         _iColumns = 4;
         return true;
     }

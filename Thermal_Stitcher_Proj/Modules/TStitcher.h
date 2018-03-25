@@ -2,6 +2,7 @@
 #define TSTITCHER_H_
 
 #include <iostream>
+#include <fstream>
 #include <QString>
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
