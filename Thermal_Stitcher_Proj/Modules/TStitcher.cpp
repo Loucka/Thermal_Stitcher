@@ -17,9 +17,9 @@ void TStitcher::BeginStitching (int rows, int columns)
     // Begin by evaluating the number of rows and columns.
     // If more than one row, additional stitching must be done for each column
     // prior to stitching all columns together.
-
     if (rows > 1)
     {
+        // Stitch the columns and do the rotation.
     }
 
     // At this point, we should only have one row to stitch.
