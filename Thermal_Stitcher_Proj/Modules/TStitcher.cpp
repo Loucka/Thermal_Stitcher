@@ -36,7 +36,7 @@ void TStitcher::BeginStitching (int rows, int columns)
     cv::Stitcher::Status status = _stitcher.stitch (imgs, result);
     if (status != cv::Stitcher::OK)
     {
-        std::cout<<"Fuck\n";
+        std::cout<<"Failed\n";
     }
     else
     {
