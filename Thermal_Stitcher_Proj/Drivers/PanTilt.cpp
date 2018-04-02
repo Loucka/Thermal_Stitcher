@@ -24,6 +24,11 @@ bool PanTilt::Initialize (void)
     return false;
 }
 
+bool PanTilt::ExecuteTransmission(char *message)
+{
+
+}
+
 char* PanTilt::RetrieveAngleHex(int angle)
 {
     if (angle < 15 || angle > 180)

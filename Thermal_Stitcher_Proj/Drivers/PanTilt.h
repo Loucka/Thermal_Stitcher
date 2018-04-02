@@ -18,6 +18,7 @@ class PanTilt
         bool PanPosition (int angle);
         bool TiltPosition (int angle);
     private:
+        bool ExecuteTransmission (char* message);
         char* RetrieveAngleHex (int angle);
         int BAUD_RATE = 9600; // 9600 baud
         int USB_PORT = 24;    // ACM0 serial port #

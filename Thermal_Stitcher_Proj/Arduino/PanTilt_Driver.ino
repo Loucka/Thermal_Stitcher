@@ -65,7 +65,7 @@ void ProcessBuffer ()
   {
     if (buffer [1] == 'T' && buffer [2] == '?')
     {
-        Serial.println ("PT");
+        Serial.println (COMMAND_SUCCESS);
     }
     else
         moveServo (panServo, RetrieveAngle (buffer [1], buffer [2]));
