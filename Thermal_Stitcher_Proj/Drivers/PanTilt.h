@@ -1,8 +1,10 @@
 #ifndef PANTILT_H_
 #define PANTILT_H_
+#include <iomanip>
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sstream>
 #include <unistd.h>
 #include "Third-Party/RS-232/rs232.h"
 
@@ -16,6 +18,7 @@ class PanTilt
         bool PanPosition (int angle);
         bool TiltPosition (int angle);
     private:
+        char* RetrieveAngleHex (int angle);
         int BAUD_RATE = 57600; // 9600 baud
         char COMMAND_BEGIN = '$';
         char COMMAND_END {'~'};
