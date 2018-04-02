@@ -8,7 +8,8 @@
 #include <unistd.h>
 #include "Third-Party/RS-232/rs232.h"
 
-#define BUF_SIZE 5
+#define SEND_BUF_SIZE 5
+#define REC_BUF_SIZE 1
 
 class PanTilt
 {
@@ -27,8 +28,9 @@ class PanTilt
         char COMMAND_PAN {'P'};
         char COMMAND_TILT {'T'};
         char COMMAND_REQUEST {'?'};
-        char RESPONSE_QUERY [2] = {COMMAND_PAN, COMMAND_TILT};
-        char COMMAND_QUERY [5] = {COMMAND_BEGIN,
+        char RESPONSE_SUCCESS {'Y'};
+        char RESPONSE_FAILURE {'N'};
+        char COMMAND_QUERY [SEND_BUF_SIZE] = {COMMAND_BEGIN,
                                     COMMAND_PAN,
                                     COMMAND_TILT,
                                     COMMAND_REQUEST,

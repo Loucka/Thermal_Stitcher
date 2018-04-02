@@ -6,7 +6,7 @@ bool PanTilt::Initialize (void)
     std::cout <<"\n\t\tSearching for Arduino Serial Port...\n\t\t\t\t\t\t";
 
     char mode [] = {'8','N','1',0};
-    unsigned char receiveBuffer [2];
+    unsigned char receiveBuffer [REC_BUF_SIZE];
 
     if (RS232_OpenComport(USB_PORT, BAUD_RATE, mode))
         return false;
@@ -14,11 +14,10 @@ bool PanTilt::Initialize (void)
     usleep(2000000);
     RS232_cputs(USB_PORT, COMMAND_QUERY);
     usleep(1000000);
-    int n = RS232_PollComport(USB_PORT, receiveBuffer, 2);
-    if (n == 2)
+    int n = RS232_PollComport(USB_PORT, receiveBuffer, REC_BUF_SIZE);
+    if (n == REC_BUF_SIZE)
     {
-        if (receiveBuffer [0] == COMMAND_PAN &&
-                receiveBuffer [1] == COMMAND_TILT)
+        if (receiveBuffer [0] == RESPONSE_SUCCESS)
             return true;
     }
     return false;
