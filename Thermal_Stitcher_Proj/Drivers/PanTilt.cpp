@@ -3,7 +3,7 @@
 bool PanTilt::Initialize (void)
 {
     // Begin by looping through all USB ports with the test message.
-    std::cout <<"\n\t\tSearching for Arduino Serial Port...\n";
+    std::cout <<"\n\t\tSearching for Arduino Serial Port...\n\t\t\t\t\t\t";
 
     char mode [] = {'8','N','1',0};
     unsigned char receiveBuffer [2];
