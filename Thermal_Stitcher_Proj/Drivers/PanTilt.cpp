@@ -8,7 +8,7 @@ bool PanTilt::Initialize (void)
     char mode [] = {'8','N','1',0};
     if (RS232_OpenComport(USB_PORT, BAUD_RATE, mode))
         return false;
-    usleep(2000000);
+    usleep(20000);
 
     return ExecuteTransmission(COMMAND_QUERY);
 }
@@ -16,7 +16,7 @@ bool PanTilt::Initialize (void)
 bool PanTilt::ExecuteTransmission(char *message)
 {
     RS232_cputs(USB_PORT, message);
-    usleep(1000000);
+    usleep(10000);
     int n = RS232_PollComport(USB_PORT, receiveBuffer, REC_BUF_SIZE);
     if (n == REC_BUF_SIZE)
     {
