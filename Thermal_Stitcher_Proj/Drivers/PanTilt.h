@@ -21,6 +21,7 @@ class PanTilt
     private:
         bool ExecuteTransmission (char* message);
         char* RetrieveAngleHex (int angle);
+        unsigned char receiveBuffer [REC_BUF_SIZE];
         int BAUD_RATE = 9600; // 9600 baud
         int USB_PORT = 24;    // ACM0 serial port #
         char COMMAND_BEGIN = '$';

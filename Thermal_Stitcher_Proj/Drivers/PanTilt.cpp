@@ -6,13 +6,16 @@ bool PanTilt::Initialize (void)
     std::cout <<"\n\t\tSearching for Arduino Serial Port...\n\t\t\t\t\t\t";
 
     char mode [] = {'8','N','1',0};
-    unsigned char receiveBuffer [REC_BUF_SIZE];
-
     if (RS232_OpenComport(USB_PORT, BAUD_RATE, mode))
         return false;
-
     usleep(2000000);
-    RS232_cputs(USB_PORT, COMMAND_QUERY);
+
+    return ExecuteTransmission(COMMAND_QUERY);
+}
+
+bool PanTilt::ExecuteTransmission(char *message)
+{
+    RS232_cputs(USB_PORT, message);
     usleep(1000000);
     int n = RS232_PollComport(USB_PORT, receiveBuffer, REC_BUF_SIZE);
     if (n == REC_BUF_SIZE)
@@ -21,11 +24,6 @@ bool PanTilt::Initialize (void)
             return true;
     }
     return false;
-}
-
-bool PanTilt::ExecuteTransmission(char *message)
-{
-
 }
 
 char* PanTilt::RetrieveAngleHex(int angle)
