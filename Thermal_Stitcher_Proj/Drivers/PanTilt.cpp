@@ -23,6 +23,7 @@ bool PanTilt::ExecuteTransmission()
     for (int i = 0; i < 5; i++)
         std::cout<<sendBuffer[i];
     std::cout<<"\n";
+    receiveBuffer [0] = RESPONSE_FAILURE;
     RS232_cputs(USB_PORT, sendBuffer);
     usleep(COM_DELAY);
     int n = RS232_PollComport(USB_PORT, receiveBuffer, REC_BUF_SIZE);
