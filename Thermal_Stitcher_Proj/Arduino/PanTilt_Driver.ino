@@ -65,7 +65,7 @@ void ProcessBuffer ()
   {
     if (buffer [1] == 'T' && buffer [2] == '?')
     {
-        Serial.println (COMMAND_SUCCESS);
+        Serial.write (COMMAND_SUCCESS);
     }
     else
         moveServo (panServo, RetrieveAngle (buffer [1], buffer [2]));
@@ -73,7 +73,7 @@ void ProcessBuffer ()
   else if (buffer [0] == 'T')
       moveServo (tiltServo, RetrieveAngle (buffer [1], buffer [2]));
       
-  Serial.flush ();
+  //Serial.flush ();
 }
 
 int RetrieveAngle (char a, char b)
@@ -86,10 +86,10 @@ void moveServo (Servo servo, int angle)
   if (angle >= LIMIT_MIN && angle <= LIMIT_MAX)
   {
     servo.write (angle);
-    Serial.println (COMMAND_SUCCESS);
+    Serial.write (COMMAND_SUCCESS);
   }
   else
-    Serial.println(COMMAND_FAILURE);
+    Serial.write(COMMAND_FAILURE);
 }
 
 int convertCharToInt (char input)
