@@ -20,6 +20,7 @@ class PanTilt
         bool PanPosition (int angle);
         bool TiltPosition (int angle);
     private:
+        int  GetAngleFromCommand (const char command []);
         bool ExecuteTransmission ();
         bool SendPosition (std::string angle);
         std::string RetrieveAngleHex (int angle);

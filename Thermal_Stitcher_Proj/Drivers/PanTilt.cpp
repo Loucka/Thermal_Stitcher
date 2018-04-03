@@ -75,21 +75,28 @@ bool PanTilt::PanPosition (int angle)
     return SendPosition (RetrieveAngleHex(angle));
 }
 
+int PanTilt::GetAngleFromCommand(const char command [])
+{
+    int angle = 0;
+
+    angle += (command [2] - '0') * 100;
+    angle += (command [3] - '0') * 10;
+    angle += (command [4] - '0');
+
+    return angle;
+}
+
 bool PanTilt::ProcessCommand (const char command [], int size)
 {
-    if (size == 4)               // Position (Tilt)
+    if (size == 5)
 	{
-		if (command [0] == 'T' && command [1] == 'P')
-            return TiltPosition (100);
-		else
-            return false;
-	}
-    else if (size == 5)               // Position (Pan)
-	{
-		if (command [0] == 'P' && command [1] == 'P')
-            return PanPosition (100);
-		else
-            return false;
+        if (command [1] == 'P')
+        {
+            if (command [0] == 'T')
+                return TiltPosition (GetAngleFromCommand(command));  // Position (Tilt)
+            else if (command [0] == 'P')
+                return PanPosition (GetAngleFromCommand(command));   // Position (Pan)
+        }
 	}
 
     return false;
