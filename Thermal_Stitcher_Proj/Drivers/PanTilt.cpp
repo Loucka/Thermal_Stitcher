@@ -39,10 +39,12 @@ char* PanTilt::RetrieveAngleHex(int angle)
     int n = sHex.length();
     char hex[n + 1];
     strcpy (hex, sHex.c_str());
-    for (int i=0; i<n; i++)
-          std::cout << hex[i];
 
     char* result = {};
+    result [0] = hex [n-2];
+    result [1] = hex [n-1];
+    for (int i=0; i<2; i++)
+          std::cout << result[i];
     return result;
 }
 
