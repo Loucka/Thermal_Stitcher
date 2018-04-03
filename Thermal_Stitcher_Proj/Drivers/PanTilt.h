@@ -10,7 +10,7 @@
 
 #define SEND_BUF_SIZE 5
 #define REC_BUF_SIZE 1
-#define COM_DELAY 20000 // microseconds
+#define COM_DELAY 2000000 // microseconds
 
 class PanTilt
 {

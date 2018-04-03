@@ -38,11 +38,6 @@ std::string PanTilt::RetrieveAngleHex(int angle)
            << std::setfill ('0') << std::setw(sizeof(int)*2)
            << std::hex << angle;
     sHex = stream.str ();
-    /*
-    int n = sHex.length();
-    char hex[n + 1];
-    strcpy (hex, sHex.c_str());
-    */
 
     return sHex;
 }
