@@ -56,10 +56,7 @@ bool PanTilt::SendPosition(std::string angle)
     sendBuffer [2] = hex [n - 2];
     sendBuffer [3] = hex [n - 1];
 
-    for (int i = 0; i < 5; i++)
-        std::cout<< sendBuffer[i];
-
-    return true;
+    return ExecuteTransmission(sendBuffer);
 }
 
 bool PanTilt::TiltPosition (int angle)
