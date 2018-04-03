@@ -2,13 +2,12 @@
 
 bool PanTilt::Initialize (void)
 {
-    // Begin by looping through all USB ports with the test message.
     std::cout <<"\n\t\tSearching for Arduino Serial Port...\n\t\t\t\t\t\t";
 
     char mode [] = {'8','N','1',0};
     if (RS232_OpenComport(USB_PORT, BAUD_RATE, mode))
         return false;
-    usleep(20000);
+    usleep(COM_DELAY);
 
     return ExecuteTransmission(COMMAND_QUERY);
 }
@@ -16,7 +15,7 @@ bool PanTilt::Initialize (void)
 bool PanTilt::ExecuteTransmission(char *message)
 {
     RS232_cputs(USB_PORT, message);
-    usleep(10000);
+    usleep(COM_DELAY);
     int n = RS232_PollComport(USB_PORT, receiveBuffer, REC_BUF_SIZE);
     if (n == REC_BUF_SIZE)
     {
@@ -31,16 +30,20 @@ char* PanTilt::RetrieveAngleHex(int angle)
     if (angle < 15 || angle > 180)
         return NULL;
 
-    char* hex = {};
     std::string sHex;
     std::stringstream stream;
     stream << "0x"
            << std::setfill ('0') << std::setw(sizeof(int)*2)
            << std::hex << angle;
     sHex = stream.str ();
-    //hex [0] = sHex [0];
-    //hex [1] = sHex [1];
-    return hex;
+    int n = sHex.length();
+    char hex[n + 1];
+    strcpy (hex, sHex.c_str());
+    for (int i=0; i<n; i++)
+          std::cout << hex[i];
+
+    char* result = {};
+    return result;
 }
 
 bool PanTilt::TiltPosition (int angle)
