@@ -53,8 +53,8 @@ bool PanTilt::SendPosition(std::string angle)
     char hex[n + 1];
     strcpy (hex, angle.c_str());
 
-    sendBuffer [2] = hex [0];
-    sendBuffer [3] = hex [1];
+    sendBuffer [2] = hex [n - 1];
+    sendBuffer [3] = hex [n - 1];
 
     std::cout << hex [1];
 
