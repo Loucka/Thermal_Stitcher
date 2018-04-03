@@ -21,7 +21,8 @@ class PanTilt
         bool TiltPosition (int angle);
     private:
         bool ExecuteTransmission (char* message);
-        char* RetrieveAngleHex (int angle);
+        bool SendPosition (std::string angle);
+        std::string RetrieveAngleHex (int angle);
         unsigned char receiveBuffer [REC_BUF_SIZE];
         char sendBuffer [SEND_BUF_SIZE];
         int BAUD_RATE = 9600; // 9600 baud
