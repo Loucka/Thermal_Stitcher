@@ -6,17 +6,20 @@ bool PanTilt::Initialize (void)
 
     char mode [] = {'8','N','1',0};
     sendBuffer [0] = COMMAND_BEGIN;
-    sendBuffer [SEND_BUF_SIZE - 1] = COMMAND_END;
+    sendBuffer [1] = COMMAND_PAN;
+    sendBuffer [2] = COMMAND_TILT;
+    sendBuffer [3] = COMMAND_REQUEST;
+    sendBuffer [4] = COMMAND_END;
     if (RS232_OpenComport(USB_PORT, BAUD_RATE, mode))
         return false;
     usleep(COM_DELAY);
 
-    return ExecuteTransmission(COMMAND_QUERY);
+    return ExecuteTransmission ();
 }
 
-bool PanTilt::ExecuteTransmission(char *message)
+bool PanTilt::ExecuteTransmission()
 {
-    RS232_cputs(USB_PORT, message);
+    RS232_cputs(USB_PORT, sendBuffer);
     usleep(COM_DELAY);
     int n = RS232_PollComport(USB_PORT, receiveBuffer, REC_BUF_SIZE);
     if (n == REC_BUF_SIZE)
@@ -51,7 +54,7 @@ bool PanTilt::SendPosition(std::string angle)
     sendBuffer [2] = hex [n - 2];
     sendBuffer [3] = hex [n - 1];
 
-    return ExecuteTransmission(sendBuffer);
+    return ExecuteTransmission();
 }
 
 bool PanTilt::TiltPosition (int angle)

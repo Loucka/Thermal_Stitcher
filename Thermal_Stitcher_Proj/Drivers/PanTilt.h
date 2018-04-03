@@ -10,7 +10,7 @@
 
 #define SEND_BUF_SIZE 5
 #define REC_BUF_SIZE 1
-#define COM_DELAY 2000000 // microseconds
+#define COM_DELAY 200000 // microseconds
 
 class PanTilt
 {
@@ -20,7 +20,7 @@ class PanTilt
         bool PanPosition (int angle);
         bool TiltPosition (int angle);
     private:
-        bool ExecuteTransmission (char* message);
+        bool ExecuteTransmission ();
         bool SendPosition (std::string angle);
         std::string RetrieveAngleHex (int angle);
         unsigned char receiveBuffer [REC_BUF_SIZE];
