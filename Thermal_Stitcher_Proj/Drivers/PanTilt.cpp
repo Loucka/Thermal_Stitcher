@@ -19,6 +19,10 @@ bool PanTilt::Initialize (void)
 
 bool PanTilt::ExecuteTransmission()
 {
+    std::cout<<"Sending: ";
+    for (int i = 0; i < 5; i++)
+        std::cout<<sendBuffer[i];
+    std::cout<<"\n";
     RS232_cputs(USB_PORT, sendBuffer);
     usleep(COM_DELAY);
     int n = RS232_PollComport(USB_PORT, receiveBuffer, REC_BUF_SIZE);
