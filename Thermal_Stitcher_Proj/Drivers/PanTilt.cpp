@@ -56,7 +56,7 @@ bool PanTilt::SendPosition(std::string angle)
     sendBuffer [2] = hex [n - 1];
     sendBuffer [3] = hex [n - 1];
 
-    std::cout << hex [n];
+    std::cout << hex [n - 1];
 
     return true;
 }
