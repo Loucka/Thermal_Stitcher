@@ -49,10 +49,11 @@ void Retriever::RetrievalThread ()
             std::this_thread::sleep_for (std::chrono::seconds(1));
             if (_imager.CaptureImage ())
             {
-                QString newFile = QString
-                        (CAPTURE_DIRECTORY + "[%1],[%2].png")
-                        .arg(iCurrentRow).arg(iCurrentColumn);
-                QFile::copy(ORIG_FILE, newFile);
+                //QString newFile = QString
+                       // (CAPTURE_DIRECTORY + "[%1],[%2].png")
+                        //.arg(iCurrentRow).arg(iCurrentColumn);
+                //QFile::copy(ORIG_FILE, newFile);
+                _stitcher.UpdateFinalImage (iCurrentColumn, iCurrentRow);
             }
             else
             {
@@ -74,8 +75,8 @@ void Retriever::RetrievalThread ()
     std::cout << "Retrieval Complete\n";
     RunningState = complete;
 
-    // Pass off information to the Stitcher.
-    _stitcher.BeginStitching (_iRows, _iColumns);
+    // Pass off information to the Stitcher.//# Fix this shit.
+    _stitcher.SaveImage ();
 }
 
 void Retriever::SetColumns(int columns)
@@ -128,7 +129,7 @@ void Retriever::ResetCapture ()
     RunningState = idle;
 }
 
-bool Retriever::Initialize (PanTilt &panTilt, Imager &imager, TStitcher &stitcher)
+bool Retriever::Initialize (PanTilt &panTilt, Imager &imager, Stitcher &stitcher)
 {
     try
     {
@@ -136,8 +137,8 @@ bool Retriever::Initialize (PanTilt &panTilt, Imager &imager, TStitcher &stitche
         _imager = imager;
         _stitcher = stitcher;
         RunningState = idle;
-        _iRows = 1;
-        _iColumns = 4;
+        _iRows = TILT_COUNT;
+        _iColumns = PAN_COUNT;
         return true;
     }
     catch (...)

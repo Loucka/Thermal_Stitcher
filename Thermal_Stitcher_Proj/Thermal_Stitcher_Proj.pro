@@ -37,8 +37,8 @@ SOURCES += \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_SYS.c \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_VID.c \
     Drivers/Display.cpp \
-    Modules/TStitcher.cpp \
-    Third-Party/RS-232/rs232.c
+    Third-Party/RS-232/rs232.c \
+    Modules/Stitcher.cpp
 
 HEADERS += \
     Drivers/Imager.h \
@@ -63,8 +63,8 @@ HEADERS += \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_Types.h \
     Third-Party/Lepton/leptonSDKEmb32PUB/LEPTON_VID.h \
     Drivers/Display.h \
-    Modules/TStitcher.h \
-    Third-Party/RS-232/rs232.h
+    Third-Party/RS-232/rs232.h \
+    Modules/Stitcher.h
 
 SUBDIRS += \
     Third-Party/Lepton/raspberrypi_video.pro

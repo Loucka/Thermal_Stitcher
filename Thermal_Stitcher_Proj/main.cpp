@@ -3,13 +3,13 @@
 #include "Drivers/Imager.h"
 #include "Drivers/Display.h"
 #include "Modules/Retriever.h"
-#include "Modules/TStitcher.h"
+#include "Modules/Stitcher.h"
 
 PanTilt _panTilt;
 Imager _imager;
 Display _display;
 Retriever _retriever;
-TStitcher _stitcher;
+Stitcher _stitcher;
 
 void DisplayMessage (std::string message)
 {
