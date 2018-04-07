@@ -42,6 +42,8 @@ void Retriever::RetrievalThread ()
                 RunningState = failed;
             }
             */
+            _panTilt.PanPosition(PAN_STATIONS[iCurrentColumn]);
+            _panTilt.TiltPosition(TILT_STATIONS[iCurrentRow]);
 
             // Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
