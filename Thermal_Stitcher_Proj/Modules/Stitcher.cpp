@@ -59,5 +59,9 @@ void Stitcher::UpdateFinalImage(int panStation, int tiltStation)
       {
          _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 0) =
                  _currentImage.at<uchar>(tilt, pan, 0);
+         _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 1) =
+                 _currentImage.at<uchar>(tilt, pan, 1);
+         _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 2) =
+                 _currentImage.at<uchar>(tilt, pan, 2);
       }
 }
