@@ -53,15 +53,21 @@ void Stitcher::UpdateFinalImage(int panStation, int tiltStation)
     _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
     //imgs.push_back (cv::imread (file.toUtf8().constData()))
   ObtainOffsets(panStation, tiltStation, &panOffset, &tiltOffset);
-
+  _currentImage.copyTo(_finalImage(cv::Rect(panOffset, tiltOffset,
+                                           _currentImage.cols, _currentImage.rows)));
+  /*
   for (int pan = 0; pan < _imageWidth; pan++)
       for (int tilt = 0; tilt < _imageHeight; tilt++)
       {
+          /*
          _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 0) =
                  _currentImage.at<uchar>(tilt, pan, 0);
          _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 1) =
                  _currentImage.at<uchar>(tilt, pan, 1);
          _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 2) =
                  _currentImage.at<uchar>(tilt, pan, 2);
+
+
       }
+                                                */
 }
