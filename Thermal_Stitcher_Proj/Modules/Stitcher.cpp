@@ -19,8 +19,8 @@ bool Stitcher::Initialize (void)
 */
 void Stitcher::CalculateFinalPx(double panDegree, double tiltDegree, double *panOffset, double *tiltOffset)
 {
-    *panOffset = ((240.00/151.50)*panDegree) - 9.00 - (_centerPan);
-    *tiltOffset = ((240.00/152.00)*tiltDegree) + 1.5686 - (_centerTilt);
+    *panOffset = ((240.00*panDegree/151.50)) - 9.00 - (_centerPan);
+    *tiltOffset = ((240.00*tiltDegree/152.00)) + 1.5686 - (_centerTilt);
 }
 
 /*
