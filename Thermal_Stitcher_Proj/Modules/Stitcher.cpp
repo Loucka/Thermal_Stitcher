@@ -19,7 +19,7 @@ bool Stitcher::Initialize (void)
 */
 void Stitcher::CalculateFinalPx(double panDegree, double tiltDegree, double *panOffset, double *tiltOffset)
 {
-    *panOffset = ((240.00*panDegree/151.50)) - 9.00 - (_centerPan);
+    *panOffset = ((151.50*panDegree/240.00)) - 9.00 - (_centerPan);
     *tiltOffset = ((240.00*tiltDegree/152.00)) + 1.5686 - (_centerTilt);
 }
 
@@ -53,8 +53,8 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
   for (double row = 0; row < _imageHeight; row++)
       for (double col = 0; col < _imageWidth; col++)
       {
-          currentPanPx = finalPanPx - col;
-          currentTiltPx = finalTiltPx - row;
+          currentPanPx = col + finalPanPx;
+          currentTiltPx = row + finalTiltPx;
 
           if (currentPanPx < 0.00)
               currentPanPx = 0.00;
