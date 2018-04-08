@@ -30,8 +30,8 @@ void Stitcher::CalculateFinalPx(double panDegree, double tiltDegree, double *pan
 void Stitcher::CalculateFinalDegrees (double panDegree, double tiltDegree,
                             double* finalPanDegree, double* finalTiltDegree)
 {
-    *finalPanDegree = panDegree * (-2.00/3.00);
-    *finalTiltDegree = tiltDegree * (-2.00/3.00);
+    *finalPanDegree = panDegree + (_centerPan * (-2.00/3.00));
+    *finalTiltDegree = tiltDegree + (_centerTilt * (-2.00/3.00));
 }
 
 void Stitcher::SaveImage ()
