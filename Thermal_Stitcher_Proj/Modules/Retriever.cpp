@@ -40,7 +40,10 @@ void Retriever::RetrievalThread ()
         {
             iTiltCounter++;
             if (iTiltCounter == 10)
+            {
+                iTiltCounter = 0;
                 bTiltSkip = true;
+            }
         }
 
         bContinue = false;
@@ -63,7 +66,10 @@ void Retriever::RetrievalThread ()
             {
                 iPanCounter++;
                 if (iPanCounter == 10)
+                {
+                    iPanCounter = 0;
                     bPanSkip = true;
+                }
             }
 
             if (RunningState == idle)
