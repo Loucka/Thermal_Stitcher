@@ -56,6 +56,6 @@ void Stitcher::UpdateFinalImage(int panDegree, int tiltDegree)
       for (int col = 0; col < _imageWidth; col++)
       {
         _currentImage.row(row).col(col).copyTo
-                (_finalImage.row(row + finalTiltPx).col(col + finalPanPx));
+                (_finalImage.row(row + finalTiltPx - _imageHeight).col(col + finalPanPx - _imageWidth));
       }
 }
