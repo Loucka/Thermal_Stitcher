@@ -9,8 +9,8 @@
 #include "Drivers/Imager.h"
 #include "Modules/Stitcher.h"
 
-#define TILT_COUNT 4
-#define PAN_COUNT 3
+#define ANGLE_START 20
+#define ANGLE_END 153
 
 class Retriever
 {
@@ -23,23 +23,19 @@ class Retriever
         void BeginCapture ();
         void PauseCapture ();
         void ResetCapture ();
-        void SetRows (int rows);
-        void SetColumns (int columns);
     private:
         const QString CAPTURE_DIRECTORY = QString ("./Modules/Captures/");
         const QString ORIG_FILE = QString (CAPTURE_DIRECTORY + "raw_capture.png");
         PanTilt _panTilt;               // Reference to PanTilt Driver.
         Imager _imager;                 // Reference to Imager Driver.
         Stitcher _stitcher;            // Reference to Stitching Module.
-        int _iRows;                     // Number of rows to capture.
-        int _iColumns;                  // Number of columns to capture.
+        int _angleStart;
+        int _angleEnd;
         std::thread _retrievalThread;   // Manages the retrieving action.
 
         void RetrievalThread ();        // Executes actual retrieving
         bool CopyImage (std::string newName);
         void PurgeCaptureDirectory ();
-        int PAN_STATIONS [PAN_COUNT] = {20, 70, 120};
-        int TILT_STATIONS [TILT_COUNT] = {20,58,96,134};
 };
 
 #endif /* Retriever_H_ */

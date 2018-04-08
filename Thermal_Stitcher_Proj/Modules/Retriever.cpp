@@ -14,15 +14,58 @@ void Retriever::PurgeCaptureDirectory()
 void Retriever::RetrievalThread ()
 {
     std::cout << "Beginning Retrieval\n";
-    int iCurrentRow;
-    int iCurrentColumn;
+    int iCurrentTilt;
+    int iCurrentPan;
     bool bContinue;
+    bool bPanSkip = false;
+    bool bTiltSkip = false;
+    int iPanCounter = 4;
+    int iTiltCounter = 4;
 
-    for (iCurrentRow = 0; iCurrentRow < _iRows; iCurrentRow++)
+    for (iCurrentTilt = _angleStart; iCurrentTilt <= _angleEnd; iCurrentTilt++)
     {
-        bContinue = false;
-        for (iCurrentColumn = 0; iCurrentColumn < _iColumns; iCurrentColumn++)
+        if (bTiltSkip)
         {
+            if (iTiltCounter == 5)
+            {
+                iTiltCounter = 0;
+                bTiltSkip = false;
+            }
+            else
+                iTiltCounter++;
+
+            continue;
+        }
+        else
+        {
+            iTiltCounter++;
+            if (iTiltCounter == 10)
+                bTiltSkip = true;
+        }
+
+        bContinue = false;
+        for (iCurrentPan = _angleStart; iCurrentPan < _angleEnd; iCurrentPan++)
+        {
+            // Because the servos suck, we need to avoid problematic pan values.
+            if (bPanSkip)
+            {
+                if (iPanCounter == 5)
+                {
+                    iPanCounter = 0;
+                    bPanSkip = false;
+                }
+                else
+                    iPanCounter++;
+
+                continue;
+            }
+            else
+            {
+                iPanCounter++;
+                if (iPanCounter == 10)
+                    bPanSkip = true;
+            }
+
             if (RunningState == idle)
                 return;
             if (RunningState == paused)
@@ -31,19 +74,8 @@ void Retriever::RetrievalThread ()
                 continue;
             }
 
-            /*
-            // Direct the PanTilt to the appropriate
-            // station.
-            _panTilt.PanPosition()
-            _panTilt.TiltPosition();
-            while (_panTilt.SeekingPan)
-            {
-                // wait until timeout. Bail if received.
-                RunningState = failed;
-            }
-            */
-            _panTilt.PanPosition(PAN_STATIONS[iCurrentColumn]);
-            _panTilt.TiltPosition(TILT_STATIONS[iCurrentRow]);
+            _panTilt.PanPosition(iCurrentPan);
+            _panTilt.TiltPosition(iCurrentTilt);
 
             // Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
@@ -51,13 +83,9 @@ void Retriever::RetrievalThread ()
             std::this_thread::sleep_for (std::chrono::milliseconds(200));
             if (_imager.CaptureImage ())
             {
-                //QString newFile = QString
-                       // (CAPTURE_DIRECTORY + "[%1],[%2].png")
-                        //.arg(iCurrentRow).arg(iCurrentColumn);
-                //QFile::copy(ORIG_FILE, newFile);
                 _stitcher.UpdateFinalImage
-                        (static_cast<double>(TILT_STATIONS[iCurrentColumn]),
-                         static_cast<double>(PAN_STATIONS[iCurrentRow]));
+                        (static_cast<double>(iCurrentPan),
+                         static_cast<double>(iCurrentTilt));
             }
             else
             {
@@ -70,8 +98,8 @@ void Retriever::RetrievalThread ()
 
         if (bContinue)
         {
-            iCurrentRow--;
-            iCurrentColumn--;
+            iCurrentTilt--;
+            iCurrentPan--;
         }
     }
 
@@ -81,16 +109,6 @@ void Retriever::RetrievalThread ()
 
     // Pass off information to the Stitcher.//# Fix this shit.
     _stitcher.SaveImage ();
-}
-
-void Retriever::SetColumns(int columns)
-{
-    _iColumns = columns;
-}
-
-void Retriever::SetRows(int rows)
-{
-    _iRows = rows;
 }
 
 void Retriever::BeginCapture ()
@@ -141,8 +159,8 @@ bool Retriever::Initialize (PanTilt &panTilt, Imager &imager, Stitcher &stitcher
         _imager = imager;
         _stitcher = stitcher;
         RunningState = idle;
-        _iRows = TILT_COUNT;
-        _iColumns = PAN_COUNT;
+        _angleStart = ANGLE_START;
+        _angleEnd = ANGLE_END;
         return true;
     }
     catch (...)
