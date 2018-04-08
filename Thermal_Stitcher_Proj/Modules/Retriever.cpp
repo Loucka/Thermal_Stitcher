@@ -49,8 +49,8 @@ void Retriever::RetrievalThread ()
 
             std::cout <<"Retrieving image at:\tP(" << iCurrentPan
                      <<")\tT(" << iCurrentTilt<<")\n";
-            _panTilt.PanPosition(iCurrentPan);
-            _panTilt.TiltPosition(iCurrentTilt);
+            _panTilt.PanPosition(PAN_STATIONS[iCurrentPan]);
+            _panTilt.TiltPosition(PAN_STATIONS[iCurrentTilt]);
 
             // Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
@@ -59,8 +59,8 @@ void Retriever::RetrievalThread ()
             if (_imager.CaptureImage ())
             {
                 _stitcher.UpdateFinalImage
-                        (static_cast<double>(iCurrentPan),
-                         static_cast<double>(iCurrentTilt));
+                        (static_cast<double>(PAN_STATIONS[iCurrentPan]),
+                         static_cast<double>(PAN_STATIONS[iCurrentTilt]));
             }
             else
             {
