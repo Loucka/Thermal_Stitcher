@@ -19,10 +19,6 @@ bool PanTilt::Initialize (void)
 
 bool PanTilt::ExecuteTransmission()
 {
-    std::cout<<"Sending: ";
-    for (int i = 0; i < 5; i++)
-        std::cout<<sendBuffer[i];
-    std::cout<<"\n";
     receiveBuffer [0] = RESPONSE_FAILURE;
     RS232_cputs(USB_PORT, sendBuffer);
     usleep(COM_DELAY);
@@ -64,14 +60,12 @@ bool PanTilt::SendPosition(std::string angle)
 
 bool PanTilt::TiltPosition (int angle)
 {
-    std::cout << "Tilt Position\n";
     sendBuffer [1] = COMMAND_TILT;
     return SendPosition (RetrieveAngleHex (angle));
 }
 
 bool PanTilt::PanPosition (int angle)
 {
-    std::cout << "Pan Position\n";
     sendBuffer [1] = COMMAND_PAN;
     return SendPosition (RetrieveAngleHex(angle));
 }

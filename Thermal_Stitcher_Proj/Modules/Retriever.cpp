@@ -17,61 +17,12 @@ void Retriever::RetrievalThread ()
     int iCurrentTilt;
     int iCurrentPan;
     bool bContinue;
-    bool bPanSkip = false;
-    bool bTiltSkip = false;
-    int iPanCounter = 4;
-    int iTiltCounter = 4;
 
-    for (iCurrentTilt = _angleStart; iCurrentTilt <= _angleEnd; iCurrentTilt++)
+    for (iCurrentTilt = _angleStart; iCurrentTilt <= _angleEnd; iCurrentTilt+=10)
     {
-        if (bTiltSkip)
-        {
-            if (iTiltCounter == 5)
-            {
-                iTiltCounter = 0;
-                bTiltSkip = false;
-            }
-            else
-                iTiltCounter++;
-
-            continue;
-        }
-        else
-        {
-            iTiltCounter++;
-            if (iTiltCounter == 10)
-            {
-                iTiltCounter = 0;
-                bTiltSkip = true;
-            }
-        }
-
         bContinue = false;
-        for (iCurrentPan = _angleStart; iCurrentPan < _angleEnd; iCurrentPan++)
+        for (iCurrentPan = _angleStart; iCurrentPan < _angleEnd; iCurrentPan+=10)
         {
-            // Because the servos suck, we need to avoid problematic pan values.
-            if (bPanSkip)
-            {
-                if (iPanCounter == 5)
-                {
-                    iPanCounter = 0;
-                    bPanSkip = false;
-                }
-                else
-                    iPanCounter++;
-
-                continue;
-            }
-            else
-            {
-                iPanCounter++;
-                if (iPanCounter == 10)
-                {
-                    iPanCounter = 0;
-                    bPanSkip = true;
-                }
-            }
-
             if (RunningState == idle)
                 return;
             if (RunningState == paused)
@@ -80,6 +31,8 @@ void Retriever::RetrievalThread ()
                 continue;
             }
 
+            std::cout <<"Retrieving image at:\tP(" << iCurrentPan
+                     <<")\t/\tT(" << iCurrentTilt<<")\n";
             _panTilt.PanPosition(iCurrentPan);
             _panTilt.TiltPosition(iCurrentTilt);
 
@@ -113,7 +66,7 @@ void Retriever::RetrievalThread ()
     std::cout << "Retrieval Complete\n";
     RunningState = complete;
 
-    // Pass off information to the Stitcher.//# Fix this shit.
+    // Save the final image.
     _stitcher.SaveImage ();
 }
 
