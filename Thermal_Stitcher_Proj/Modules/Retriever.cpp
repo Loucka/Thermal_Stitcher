@@ -64,6 +64,10 @@ void Retriever::RetrievalThread ()
             std::this_thread::sleep_for (std::chrono::milliseconds(100));
             if (_imager.CaptureImage ())
             {
+                               QString newFile = QString
+                                       (CAPTURE_DIRECTORY + "[%1],[%2].png")
+                                       .arg(iCurrentTilt).arg(iCurrentPan);
+                               QFile::copy(ORIG_FILE, newFile);
                 _stitcher.UpdateFinalImage
                         (static_cast<double>(PAN_STATIONS[iCurrentPan]),
                          static_cast<double>(PAN_STATIONS[iCurrentTilt]));
