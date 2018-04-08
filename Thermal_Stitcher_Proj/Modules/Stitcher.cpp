@@ -74,21 +74,21 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
         newColor = _currentImage.at<cv::Vec3b>(row, col);
         oldColor = _finalImage.at<cv::Vec3b>(currentTiltPx, currentPanPx);
 
-        if (oldColor [0] != DEFAULT_BLUE ||
+        if (oldColor [0] != DEFAULT_RED||
                 oldColor [1] != DEFAULT_GREEN ||
-                oldColor [2] != DEFAULT_RED)
+                oldColor [2] != DEFAULT_BLUE)
         {
             // Try to average the rgb values. Should make things smoother.
             // Average it out.
             for (int i = 0; i < 3; i++)
             {
                 currentAverage = (oldColor [i] * oldColor [i]) + (newColor [i] * newColor [i]);
-                currentAverage /= i;
+                currentAverage /= 2;
                 currentAverage = sqrt (currentAverage);
-                newColor [i] = currentAverage;
+                newColor [i] = nearbyint (currentAverage);
             }
         }
 
-        _finalImage.row(currentTiltPx).col(currentPanPx) = newColor.channels;
+        _finalImage.row(currentTiltPx).col(currentPanPx) = newColor;
       }
 }
