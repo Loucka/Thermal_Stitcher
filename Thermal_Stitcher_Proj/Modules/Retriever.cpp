@@ -52,10 +52,16 @@ void Retriever::RetrievalThread ()
             _panTilt.PanPosition(PAN_STATIONS[iCurrentPan]);
             _panTilt.TiltPosition(PAN_STATIONS[iCurrentTilt]);
 
+            if (iCurrentPan == 0 && iCurrentTilt == 0)
+            {
+                // Sleep for a longer time while the pan tilt orients itself.
+                std::this_thread::sleep_for (std::chrono::milliseconds(2000));
+            }
+
             // Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
             //# This is a test. We're only polling for test photos.
-            std::this_thread::sleep_for (std::chrono::milliseconds(1000));
+            std::this_thread::sleep_for (std::chrono::milliseconds(100));
             if (_imager.CaptureImage ())
             {
                 _stitcher.UpdateFinalImage

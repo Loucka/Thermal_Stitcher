@@ -48,7 +48,8 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
   //CalculateFinalDegrees(panDegree,tiltDegree,
                          //&finalPanDegree, &finalTiltDegree);
   CalculateFinalPx(panDegree, tiltDegree, &finalPanPx, &finalTiltPx);
-
+  std::cout<<"\t\tFinal Degrees: P("<<panDegree<<")\tT("<<tiltDegree<<")\n";
+  std::cout<<"\t\tFinal Px: P("<<finalPanPx<<")\tT("<<finalTiltPx<<")\n";
   for (double row = 0; row < _imageHeight; row++)
       for (double col = 0; col < _imageWidth; col++)
       {
@@ -67,8 +68,6 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
 
           currentPanPx = nearbyint(currentPanPx);
           currentTiltPx = nearbyint(currentTiltPx);
-          std::cout<<"\t\tFinal Degrees: P("<<panDegree<<")\tT("<<tiltDegree<<")\n";
-          std::cout<<"\t\tFinal Px: P("<<currentPanPx<<")\tT("<<currentTiltPx<<")\n";
 
         _currentImage.row(row).col(col).copyTo
                 (_finalImage.row(currentTiltPx).col(currentPanPx));
