@@ -49,8 +49,8 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
                          //&finalPanDegree, &finalTiltDegree);
   CalculateFinalPx(panDegree, tiltDegree, &finalPanPx, &finalTiltPx);
 
-  std::cout<<"Final Degrees: P("<<panDegree<<")\tT("<<tiltDegree<<"\n";
-  std::cout<<"Final Px: P("<<finalPanPx<<")\tT("<<finalTiltPx<<"\n";
+  std::cout<<"\t\tFinal Degrees: P("<<panDegree<<")\tT("<<tiltDegree<<")\n";
+  std::cout<<"\t\tFinal Px: P("<<finalPanPx<<")\tT("<<finalTiltPx<<")\n";
 
   for (double row = 0; row < _imageHeight; row++)
       for (double col = 0; col < _imageWidth; col++)
