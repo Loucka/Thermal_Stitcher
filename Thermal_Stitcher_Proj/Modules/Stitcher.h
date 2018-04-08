@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <QString>
+#include <math.h>
 #include "opencv2/core/mat.hpp"
 #include "opencv2/imgcodecs.hpp"
 
@@ -21,7 +22,7 @@ class Stitcher
 {
 	public:
 		bool Initialize ();
-        void UpdateFinalImage (int panStation, int tiltStation);
+        void UpdateFinalImage (int panAngle, int tiltAngle);
         void SaveImage ();
     private:
         cv::Mat _currentImage;
@@ -30,13 +31,11 @@ class Stitcher
         int _centerTilt;
         int _imageHeight;
         int _imageWidth;
-        void CalculateFinalPx
-            (int panDegree, int tiltDegree, int* finalPanPx, int* finalTiltPx);
         void CalculateFinalDegrees
             (int panDegree, int panPx,
              int tiltDegree, int tiltPx,
              int* finalPanDegree, int* finalTiltDegree);
-        bool ObtainOffsets (int panStation, int tiltStation, int* panOffset, int* tiltOffset);
+        void ObtainOffsets (int panDegree, int tiltDegree, int* panOffset, int* tiltOffset);
 };
 
 #endif /* Stitcher_H_ */

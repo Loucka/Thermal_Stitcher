@@ -13,20 +13,14 @@ bool Stitcher::Initialize (void)
 	return true;
 }
 
-bool Stitcher::ObtainOffsets(int panStation, int tiltStation, int *panOffset, int *tiltOffset)
-{
-    *panOffset = panStation * IMAGE_WIDTH;
-    *tiltOffset = tiltStation * IMAGE_HEIGHT;
-}
-
 /*
  * Using the determined Pan/Tilt of a given pixel, determine the
  * pixel it relates to in the final image.
 */
-void Stitcher::CalculateFinalPx(int panDegree, int tiltDegree,
-                                int *finalPanPx, int *finalTiltPx)
+void Stitcher::ObtainOffsets(int panDegree, int tiltDegree, int *panOffset, int *tiltOffset)
 {
-
+    *panOffset = nearbyint (((240/151.5)*panDegree) - 9);
+    *tiltOffset = nearbyint (((240/152)*tiltDegree) + 1.5686);
 }
 
 /*
@@ -37,8 +31,8 @@ void Stitcher::CalculateFinalDegrees (int panDegree, int panPx,
                             int tiltDegree, int tiltPx,
                             int* finalPanDegree, int* finalTiltDegree)
 {
-    *finalPanDegree = panDegree + (_centerPan - panPx) * ANGLE_CONVERSION_MULTIPLIER;
-    *finalTiltDegree = tiltDegree + (_centerTilt - tiltPx) * ANGLE_CONVERSION_MULTIPLIER;
+    *finalPanDegree = nearbyint (panDegree + (_centerPan - panPx) * ANGLE_CONVERSION_MULTIPLIER);
+    *finalTiltDegree = nearbyint (tiltDegree + (_centerTilt - tiltPx) * ANGLE_CONVERSION_MULTIPLIER);
 }
 
 void Stitcher::SaveImage ()
@@ -46,28 +40,22 @@ void Stitcher::SaveImage ()
     cv::imwrite("finalImage.jpg", _finalImage);
 }
 
-void Stitcher::UpdateFinalImage(int panStation, int tiltStation)
+void Stitcher::UpdateFinalImage(int panDegree, int tiltDegree)
 {
-  int panOffset, tiltOffset;
-    //QString file = QString ("./Modules/Captures/raw_capture.png");
-    _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
-    //imgs.push_back (cv::imread (file.toUtf8().constData()))
-  ObtainOffsets(panStation, tiltStation, &panOffset, &tiltOffset);
-  _currentImage.copyTo(_finalImage(cv::Rect(panOffset, tiltOffset,
-                                           _currentImage.cols, _currentImage.rows)));
-  /*
-  for (int pan = 0; pan < _imageWidth; pan++)
-      for (int tilt = 0; tilt < _imageHeight; tilt++)
+  //int panOffset, tiltOffset;
+    int finalPanDegree, finalTiltDegree;
+    int panOffset, tiltOffset;
+   _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
+   CalculateFinalDegrees(panDegree, _centerPan,
+                         tiltDegree, _centerTilt,
+                         &finalPanDegree, &finalTiltDegree);
+
+  ObtainOffsets(finalPanDegree, finalTiltDegree, &panOffset, &tiltOffset);
+
+  for (int row = 0; row < _imageHeight; row++)
+      for (int col = 0; col < _imageWidth; col++)
       {
-          /*
-         _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 0) =
-                 _currentImage.at<uchar>(tilt, pan, 0);
-         _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 1) =
-                 _currentImage.at<uchar>(tilt, pan, 1);
-         _finalImage.at<uchar>(tilt + tiltOffset, pan + panOffset, 2) =
-                 _currentImage.at<uchar>(tilt, pan, 2);
-
-
+        _currentImage.row(row).col(col).copyTo
+                (_finalImage.row(row + tiltOffset).col(col + panOffset));
       }
-                                                */
 }

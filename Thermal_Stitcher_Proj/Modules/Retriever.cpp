@@ -48,14 +48,15 @@ void Retriever::RetrievalThread ()
             // Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
             //# This is a test. We're only polling for test photos.
-            std::this_thread::sleep_for (std::chrono::seconds(1));
+            std::this_thread::sleep_for (std::chrono::milliseconds(200));
             if (_imager.CaptureImage ())
             {
                 //QString newFile = QString
                        // (CAPTURE_DIRECTORY + "[%1],[%2].png")
                         //.arg(iCurrentRow).arg(iCurrentColumn);
                 //QFile::copy(ORIG_FILE, newFile);
-                _stitcher.UpdateFinalImage (iCurrentColumn, iCurrentRow);
+                _stitcher.UpdateFinalImage
+                        (TILT_STATIONS[iCurrentColumn], PAN_STATIONS[iCurrentRow]);
             }
             else
             {
