@@ -18,7 +18,6 @@ void Retriever::RetrievalThread ()
     int iCurrentPan;
     bool bContinue;
     bool bForwards = true;
-    int panStart;
     int panGoal;
     bool bPanReached = false;
 
@@ -49,7 +48,7 @@ void Retriever::RetrievalThread ()
             }
 
             std::cout <<"Retrieving image at:\tP(" << iCurrentPan
-                     <<")\t/\tT(" << iCurrentTilt<<")\n";
+                     <<")\tT(" << iCurrentTilt<<")\n";
             _panTilt.PanPosition(iCurrentPan);
             _panTilt.TiltPosition(iCurrentTilt);
 
@@ -73,7 +72,7 @@ void Retriever::RetrievalThread ()
 
             if (iCurrentPan == panGoal)
             {
-                bPanReached;
+                bPanReached = true;
                 bForwards = !bForwards;
             }
             else

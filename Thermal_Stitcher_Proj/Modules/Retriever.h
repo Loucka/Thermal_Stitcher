@@ -32,6 +32,7 @@ class Retriever
         void RetrievalThread ();        // Executes actual retrieving
         bool CopyImage (std::string newName);
         void PurgeCaptureDirectory ();
+        int _stationCount;
         int PAN_STATIONS [STATION_COUNT] =
         {20,25,32,36,41,48,53,57,64,68,73,80,85,89,96,100,105,112,116,121,128,133,144,148,153};
 
