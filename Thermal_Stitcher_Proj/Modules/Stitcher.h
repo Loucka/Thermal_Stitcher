@@ -8,12 +8,12 @@
 #include "opencv2/core/mat.hpp"
 #include "opencv2/imgcodecs.hpp"
 
-#define IMAGE_DIMENSION 240
+#define IMAGE_DIMENSION 240.00
 #define ANGLE_CONVERSION_MULTIPLIER -0.64
-#define CENTER_PAN_PX 39;
-#define CENTER_TILT_PX 29;
-#define IMAGE_HEIGHT 60;
-#define IMAGE_WIDTH 80;
+#define CENTER_PAN_PX 39.00;
+#define CENTER_TILT_PX 29.00;
+#define IMAGE_HEIGHT 60.00;
+#define IMAGE_WIDTH 80.00;
 #define DEFAULT_RED 181
 #define DEFAULT_GREEN 109
 #define DEFAULT_BLUE 246
@@ -22,20 +22,21 @@ class Stitcher
 {
 	public:
 		bool Initialize ();
-        void UpdateFinalImage (int panAngle, int tiltAngle);
+        void UpdateFinalImage (double panAngle, double tiltAngle);
         void SaveImage ();
     private:
         cv::Mat _currentImage;
         cv::Mat _finalImage;
-        int _centerPan;
-        int _centerTilt;
-        int _imageHeight;
-        int _imageWidth;
+        double _centerPan;
+        double _centerTilt;
+        double _imageHeight;
+        double _imageWidth;
         void CalculateFinalDegrees
-            (int panDegree, int panPx,
-             int tiltDegree, int tiltPx,
-             int* finalPanDegree, int* finalTiltDegree);
-        void CalculateFinalPx (int panDegree, int tiltDegree, int* panOffset, int* tiltOffset);
+            (double panDegree, double panPx,
+             double tiltDegree, double tiltPx,
+             double* finalPanDegree, double* finalTiltDegree);
+        void CalculateFinalPx (double panDegree, double tiltDegree
+                               , double* panOffset, double* tiltOffset);
 };
 
 #endif /* Stitcher_H_ */

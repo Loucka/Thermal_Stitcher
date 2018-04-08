@@ -17,22 +17,22 @@ bool Stitcher::Initialize (void)
  * Using the determined Pan/Tilt of a given pixel, determine the
  * pixel it relates to in the final image.
 */
-void Stitcher::CalculateFinalPx(int panDegree, int tiltDegree, int *panOffset, int *tiltOffset)
+void Stitcher::CalculateFinalPx(double panDegree, double tiltDegree, double *panOffset, double *tiltOffset)
 {
-    *panOffset = nearbyint (((240.00/151.50)*panDegree) - 9.00 - (_imageWidth / 2.00));
-    *tiltOffset = nearbyint (((240.00/152.00)*tiltDegree) + 1.5686 - (_imageHeight / 2.00));
+    *panOffset = ((240.00/151.50)*panDegree) - 9.00 - (_imageWidth / 2.00);
+    *tiltOffset = ((240.00/152.00)*tiltDegree) + 1.5686 - (_imageHeight / 2.00);
 }
 
 /*
  * Using the current Pan/Tilt of the Positioner, determine the
  * Pan/Tilt being viewed by a single pixel.
 */
-void Stitcher::CalculateFinalDegrees (int panDegree, int panPx,
-                            int tiltDegree, int tiltPx,
-                            int* finalPanDegree, int* finalTiltDegree)
+void Stitcher::CalculateFinalDegrees (double panDegree, double panPx,
+                            double tiltDegree, double tiltPx,
+                            double* finalPanDegree, double* finalTiltDegree)
 {
-    *finalPanDegree = nearbyint (panDegree + ((_centerPan - panPx)) * (-2.00/3.00));
-    *finalTiltDegree = nearbyint (tiltDegree + ((_centerTilt - tiltPx)) * (-2.00/3.00));
+    *finalPanDegree = panDegree + ((_centerPan - panPx)) * (-2.00/3.00);
+    *finalTiltDegree = tiltDegree + ((_centerTilt - tiltPx)) * (-2.00/3.00);
 }
 
 void Stitcher::SaveImage ()
@@ -40,11 +40,11 @@ void Stitcher::SaveImage ()
     cv::imwrite("finalImage.jpg", _finalImage);
 }
 
-void Stitcher::UpdateFinalImage(int panDegree, int tiltDegree)
+void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
 {
-  int finalPanDegree, finalTiltDegree;
-  int finalPanPx, finalTiltPx;
-  int currentPanPx, currentTiltPx;
+  double finalPanDegree, finalTiltDegree;
+  double finalPanPx, finalTiltPx;
+  double currentPanPx, currentTiltPx;
   _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
   CalculateFinalDegrees(panDegree, _centerPan,
                          tiltDegree, _centerTilt,
@@ -52,21 +52,24 @@ void Stitcher::UpdateFinalImage(int panDegree, int tiltDegree)
   CalculateFinalPx(finalPanDegree, finalTiltDegree, &finalPanPx, &finalTiltPx);
 
   std::cout<<finalPanPx<<": "<<finalTiltPx<<"\n";
-  for (int row = 0; row < _imageHeight; row++)
-      for (int col = 0; col < _imageWidth; col++)
+  for (double row = 0; row < _imageHeight; row++)
+      for (double col = 0; col < _imageWidth; col++)
       {
           currentPanPx = col + finalPanPx;
           currentTiltPx = row + finalTiltPx;
 
-          if (currentPanPx < 0)
-              currentPanPx = 0;
-          else if (currentPanPx > 239)
-              currentPanPx = 239;
+          if (currentPanPx < 0.00)
+              currentPanPx = 0.00;
+          else if (currentPanPx > 239.00)
+              currentPanPx = 239.00;
 
-          if (currentTiltPx < 0)
-              currentTiltPx = 0;
-          else if (currentTiltPx > 239)
-              currentTiltPx = 239;
+          if (currentTiltPx < 0.00)
+              currentTiltPx = 0.00;
+          else if (currentTiltPx > 239.00)
+              currentTiltPx = 239.00;
+
+          currentPanPx = nearbyint(currentPanPx);
+          currentTiltPx = nearbyint(currentTiltPx);
 
         _currentImage.row(row).col(col).copyTo
                 (_finalImage.row(currentTiltPx).col(currentPanPx));

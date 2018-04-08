@@ -56,7 +56,8 @@ void Retriever::RetrievalThread ()
                         //.arg(iCurrentRow).arg(iCurrentColumn);
                 //QFile::copy(ORIG_FILE, newFile);
                 _stitcher.UpdateFinalImage
-                        (TILT_STATIONS[iCurrentColumn], PAN_STATIONS[iCurrentRow]);
+                        (static_cast<double>(TILT_STATIONS[iCurrentColumn]),
+                         static_cast<double>(PAN_STATIONS[iCurrentRow]));
             }
             else
             {
