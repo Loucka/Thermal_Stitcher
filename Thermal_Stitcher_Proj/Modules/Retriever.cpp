@@ -55,7 +55,7 @@ void Retriever::RetrievalThread ()
             // Once approached, retrieve an image
             // and create a renamed copy that reflects its index.
             //# This is a test. We're only polling for test photos.
-            //std::this_thread::sleep_for (std::chrono::milliseconds(200));
+            std::this_thread::sleep_for (std::chrono::milliseconds(100));
             if (_imager.CaptureImage ())
             {
                 _stitcher.UpdateFinalImage
