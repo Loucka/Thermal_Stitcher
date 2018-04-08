@@ -45,11 +45,11 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
   double finalPanPx, finalTiltPx;
   double currentPanPx, currentTiltPx;
   _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
-  CalculateFinalDegrees(panDegree,tiltDegree,
-                         &finalPanDegree, &finalTiltDegree);
-  CalculateFinalPx(finalPanDegree, finalTiltDegree, &finalPanPx, &finalTiltPx);
+  //CalculateFinalDegrees(panDegree,tiltDegree,
+                         //&finalPanDegree, &finalTiltDegree);
+  CalculateFinalPx(panDegree, tiltDegree, &finalPanPx, &finalTiltPx);
 
-  std::cout<<"Final Degrees: P("<<finalPanDegree<<")\tT("<<finalTiltDegree<<"\n";
+  std::cout<<"Final Degrees: P("<<panDegree<<")\tT("<<tiltDegree<<"\n";
   std::cout<<"Final Px: P("<<finalPanPx<<")\tT("<<finalTiltPx<<"\n";
 
   for (double row = 0; row < _imageHeight; row++)
