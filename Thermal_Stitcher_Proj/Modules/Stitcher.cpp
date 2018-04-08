@@ -19,8 +19,8 @@ bool Stitcher::Initialize (void)
 */
 void Stitcher::CalculateFinalPx(int panDegree, int tiltDegree, int *panOffset, int *tiltOffset)
 {
-    *panOffset = nearbyint (((240/151.5)*panDegree) - (9 + _imageWidth));
-    *tiltOffset = nearbyint (((240/152)*tiltDegree) + (1.5686 - _imageHeight));
+    *panOffset = nearbyint (((240/151.5)*panDegree) - 9 - (_imageWidth / 2));
+    *tiltOffset = nearbyint (((240/152)*tiltDegree) + 1.5686 - (_imageHeight / 2));
 }
 
 /*
