@@ -17,7 +17,7 @@ bool Stitcher::Initialize (void)
  * Using the determined Pan/Tilt of a given pixel, determine the
  * pixel it relates to in the final image.
 */
-void Stitcher::ObtainOffsets(int panDegree, int tiltDegree, int *panOffset, int *tiltOffset)
+void Stitcher::CalculateFinalPx(int panDegree, int tiltDegree, int *panOffset, int *tiltOffset)
 {
     *panOffset = nearbyint (((240/151.5)*panDegree) - 9);
     *tiltOffset = nearbyint (((240/152)*tiltDegree) + 1.5686);
@@ -31,8 +31,8 @@ void Stitcher::CalculateFinalDegrees (int panDegree, int panPx,
                             int tiltDegree, int tiltPx,
                             int* finalPanDegree, int* finalTiltDegree)
 {
-    *finalPanDegree = nearbyint (panDegree + (_centerPan - panPx) * ANGLE_CONVERSION_MULTIPLIER);
-    *finalTiltDegree = nearbyint (tiltDegree + (_centerTilt - tiltPx) * ANGLE_CONVERSION_MULTIPLIER);
+    *finalPanDegree = nearbyint (panDegree + ((_centerPan - panPx)) * ANGLE_CONVERSION_MULTIPLIER);
+    *finalTiltDegree = nearbyint (tiltDegree + ((_centerTilt - tiltPx)) * ANGLE_CONVERSION_MULTIPLIER);
 }
 
 void Stitcher::SaveImage ()
@@ -42,20 +42,19 @@ void Stitcher::SaveImage ()
 
 void Stitcher::UpdateFinalImage(int panDegree, int tiltDegree)
 {
-  //int panOffset, tiltOffset;
     int finalPanDegree, finalTiltDegree;
-    int panOffset, tiltOffset;
+    int finalPanPx, finalTiltPx;
    _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
    CalculateFinalDegrees(panDegree, _centerPan,
                          tiltDegree, _centerTilt,
                          &finalPanDegree, &finalTiltDegree);
 
-  ObtainOffsets(finalPanDegree, finalTiltDegree, &panOffset, &tiltOffset);
+  CalculateFinalPx(finalPanDegree, finalTiltDegree, &finalPanPx, &finalTiltPx);
 
   for (int row = 0; row < _imageHeight; row++)
       for (int col = 0; col < _imageWidth; col++)
       {
         _currentImage.row(row).col(col).copyTo
-                (_finalImage.row((_imageHeight - row) + tiltOffset).col((_imageWidth - col) + panOffset));
+                (_finalImage.row(row + finalTiltPx).col(col + finalPanPx));
       }
 }

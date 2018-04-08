@@ -35,7 +35,7 @@ class Stitcher
             (int panDegree, int panPx,
              int tiltDegree, int tiltPx,
              int* finalPanDegree, int* finalTiltDegree);
-        void ObtainOffsets (int panDegree, int tiltDegree, int* panOffset, int* tiltOffset);
+        void CalculateFinalPx (int panDegree, int tiltDegree, int* panOffset, int* tiltOffset);
 };
 
 #endif /* Stitcher_H_ */
