@@ -53,8 +53,8 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
   for (double row = 0; row < _imageHeight; row++)
       for (double col = 0; col < _imageWidth; col++)
       {
-          currentPanPx = col - finalPanPx;
-          currentTiltPx = row - finalTiltPx;
+          currentPanPx = finalPanPx - col;
+          currentTiltPx = finalTiltPx - row;
 
           if (currentPanPx < 0.00)
               currentPanPx = 0.00;
