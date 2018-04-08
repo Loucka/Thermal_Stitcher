@@ -9,8 +9,7 @@
 #include "Drivers/Imager.h"
 #include "Modules/Stitcher.h"
 
-#define ANGLE_START 20
-#define ANGLE_END 153
+#define STATION_COUNT 25
 
 class Retriever
 {
@@ -29,13 +28,14 @@ class Retriever
         PanTilt _panTilt;               // Reference to PanTilt Driver.
         Imager _imager;                 // Reference to Imager Driver.
         Stitcher _stitcher;            // Reference to Stitching Module.
-        int _angleStart;
-        int _angleEnd;
         std::thread _retrievalThread;   // Manages the retrieving action.
-
         void RetrievalThread ();        // Executes actual retrieving
         bool CopyImage (std::string newName);
         void PurgeCaptureDirectory ();
+        int PAN_STATIONS [STATION_COUNT] =
+        {20,25,32,36,41,48,53,57,64,68,73,80,85,89,96,100,105,112,116,121,128,133,144,148,153};
+
+
 };
 
 #endif /* Retriever_H_ */

@@ -17,11 +17,76 @@ void Retriever::RetrievalThread ()
     int iCurrentTilt;
     int iCurrentPan;
     bool bContinue;
+    bool bForwards = true;
+    int panStart;
+    int panGoal;
+    bool bPanReached = false;
 
-    for (iCurrentTilt = _angleStart; iCurrentTilt <= _angleEnd; iCurrentTilt+=10)
+
+    for (iCurrentTilt = 0; iCurrentTilt <= _stationCount; iCurrentTilt++)
     {
         bContinue = false;
-        for (iCurrentPan = _angleStart; iCurrentPan < _angleEnd; iCurrentPan+=10)
+        if (bForwards)
+        {
+            iCurrentPan = 0;
+            panGoal = _stationCount - 1;
+        }
+        else
+        {
+            iCurrentPan = _stationCount - 1;
+            panGoal = 0;
+        }
+
+        bPanReached = false;
+        while (!bPanReached)
+        {
+            if (RunningState == idle)
+                return;
+            if (RunningState == paused)
+            {
+                bContinue = true;
+                continue;
+            }
+
+            std::cout <<"Retrieving image at:\tP(" << iCurrentPan
+                     <<")\t/\tT(" << iCurrentTilt<<")\n";
+            _panTilt.PanPosition(iCurrentPan);
+            _panTilt.TiltPosition(iCurrentTilt);
+
+            // Once approached, retrieve an image
+            // and create a renamed copy that reflects its index.
+            //# This is a test. We're only polling for test photos.
+            std::this_thread::sleep_for (std::chrono::milliseconds(200));
+            if (_imager.CaptureImage ())
+            {
+                _stitcher.UpdateFinalImage
+                        (static_cast<double>(iCurrentPan),
+                         static_cast<double>(iCurrentTilt));
+            }
+            else
+            {
+                // Bail if an error is received.
+                std::cout << "Error pulling in images. Bailing";
+                RunningState = failed;
+                return;
+            }
+
+            if (iCurrentPan == panGoal)
+            {
+                bPanReached;
+                bForwards = !bForwards;
+            }
+            else
+            {
+                if (bForwards)
+                    iCurrentPan++;
+                else
+                    iCurrentPan--;
+            }
+        }
+
+        /*
+        for (iCurrentPan = 0; iCurrentPan < _stationCount; iCurrentPan++)
         {
             if (RunningState == idle)
                 return;
@@ -54,6 +119,7 @@ void Retriever::RetrievalThread ()
                 return;
             }
         }
+        */
 
         if (bContinue)
         {
@@ -118,8 +184,7 @@ bool Retriever::Initialize (PanTilt &panTilt, Imager &imager, Stitcher &stitcher
         _imager = imager;
         _stitcher = stitcher;
         RunningState = idle;
-        _angleStart = ANGLE_START;
-        _angleEnd = ANGLE_END;
+        _stationCount = STATION_COUNT;
         return true;
     }
     catch (...)
