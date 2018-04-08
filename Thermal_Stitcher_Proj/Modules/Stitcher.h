@@ -5,6 +5,7 @@
 #include <fstream>
 #include <QString>
 #include <math.h>
+#include <opencv/highgui.h>
 #include "opencv2/core/mat.hpp"
 #include "opencv2/imgcodecs.hpp"
 

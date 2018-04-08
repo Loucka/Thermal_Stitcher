@@ -41,7 +41,9 @@ void Stitcher::SaveImage ()
 
 void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
 {
-  double finalPanDegree, finalTiltDegree;
+  //double finalPanDegree, finalTiltDegree;
+  cv::Vec3b newColor, oldColor;
+  double currentAverage;
   double finalPanPx, finalTiltPx;
   double currentPanPx, currentTiltPx;
   _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
@@ -69,7 +71,24 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
           currentPanPx = nearbyint(currentPanPx);
           currentTiltPx = nearbyint(currentTiltPx);
 
-        _currentImage.row(row).col(col).copyTo
-                (_finalImage.row(currentTiltPx).col(currentPanPx));
+        newColor = _currentImage.at<cv::Vec3b>(row, col);
+        oldColor = _finalImage.at<cv::Vec3b>(currentTiltPx, currentPanPx);
+
+        if (oldColor [0] != DEFAULT_BLUE ||
+                oldColor [1] != DEFAULT_GREEN ||
+                oldColor [2] != DEFAULT_RED)
+        {
+            // Try to average the rgb values. Should make things smoother.
+            // Average it out.
+            for (int i = 0; i < 3; i++)
+            {
+                currentAverage = (oldColor [i] * oldColor [i]) + (newColor [i] * newColor [i]);
+                currentAverage /= i;
+                currentAverage = sqrt (currentAverage);
+                newColor [i] = currentAverage;
+            }
+        }
+
+        _finalImage.row(currentTiltPx).col(currentPanPx) = newColor.channels;
       }
 }

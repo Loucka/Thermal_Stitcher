@@ -94,42 +94,6 @@ void Retriever::RetrievalThread ()
             }
         }
 
-        /*
-        for (iCurrentPan = 0; iCurrentPan < _stationCount; iCurrentPan++)
-        {
-            if (RunningState == idle)
-                return;
-            if (RunningState == paused)
-            {
-                bContinue = true;
-                continue;
-            }
-
-            std::cout <<"Retrieving image at:\tP(" << iCurrentPan
-                     <<")\t/\tT(" << iCurrentTilt<<")\n";
-            _panTilt.PanPosition(iCurrentPan);
-            _panTilt.TiltPosition(iCurrentTilt);
-
-            // Once approached, retrieve an image
-            // and create a renamed copy that reflects its index.
-            //# This is a test. We're only polling for test photos.
-            std::this_thread::sleep_for (std::chrono::milliseconds(200));
-            if (_imager.CaptureImage ())
-            {
-                _stitcher.UpdateFinalImage
-                        (static_cast<double>(iCurrentPan),
-                         static_cast<double>(iCurrentTilt));
-            }
-            else
-            {
-                // Bail if an error is received.
-                std::cout << "Error pulling in images. Bailing";
-                RunningState = failed;
-                return;
-            }
-        }
-        */
-
         if (bContinue)
         {
             iCurrentTilt--;
