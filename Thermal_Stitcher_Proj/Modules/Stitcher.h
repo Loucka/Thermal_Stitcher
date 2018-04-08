@@ -32,8 +32,7 @@ class Stitcher
         double _imageHeight;
         double _imageWidth;
         void CalculateFinalDegrees
-            (double panDegree, double panPx,
-             double tiltDegree, double tiltPx,
+            (double panDegree,double tiltDegree,
              double* finalPanDegree, double* finalTiltDegree);
         void CalculateFinalPx (double panDegree, double tiltDegree
                                , double* panOffset, double* tiltOffset);
