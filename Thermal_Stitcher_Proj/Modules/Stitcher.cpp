@@ -42,15 +42,16 @@ void Stitcher::SaveImage ()
 
 void Stitcher::UpdateFinalImage(int panDegree, int tiltDegree)
 {
-    int finalPanDegree, finalTiltDegree;
-    int finalPanPx, finalTiltPx;
-   _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
-   CalculateFinalDegrees(panDegree, _centerPan,
+  int finalPanDegree, finalTiltDegree;
+  int finalPanPx, finalTiltPx;
+  _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
+  CalculateFinalDegrees(panDegree, _centerPan,
                          tiltDegree, _centerTilt,
                          &finalPanDegree, &finalTiltDegree);
 
   CalculateFinalPx(finalPanDegree, finalTiltDegree, &finalPanPx, &finalTiltPx);
 
+  std::cout<<finalPanPx<<": "<<finalTiltPx<<"\n";
   for (int row = 0; row < _imageHeight; row++)
       for (int col = 0; col < _imageWidth; col++)
       {
