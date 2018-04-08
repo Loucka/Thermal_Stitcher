@@ -9,7 +9,7 @@
 #include "Drivers/Imager.h"
 #include "Modules/Stitcher.h"
 
-#define STATION_COUNT 25
+#define STATION_COUNT 5
 
 class Retriever
 {
@@ -34,7 +34,8 @@ class Retriever
         void PurgeCaptureDirectory ();
         int _stationCount;
         int PAN_STATIONS [STATION_COUNT] =
-        {20,25,32,36,41,48,53,57,64,68,73,80,85,89,96,100,105,112,116,121,128,133,144,148,153};
+        {68,73,80,85,89};
+        //{20,25,32,36,41,48,53,57,64,68,73,80,85,89,96,100,105,112,116,121,128,133,144,148,153};
 
 
 };
