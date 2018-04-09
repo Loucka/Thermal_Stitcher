@@ -18,6 +18,10 @@
 #define DEFAULT_RED 181
 #define DEFAULT_GREEN 109
 #define DEFAULT_BLUE 246
+#define TRI_B 44.45
+#define TRI_C 36.5125
+#define CONST_90 90.00
+#define CONST_HYPOT 57.5236
 
 class Stitcher
 {
@@ -32,9 +36,7 @@ class Stitcher
         double _centerTilt;
         double _imageHeight;
         double _imageWidth;
-        void CalculateFinalDegrees
-            (double panDegree,double tiltDegree,
-             double* finalPanDegree, double* finalTiltDegree);
+        double CalculateFinalDegree (double degree);
         void CalculateFinalPx (double panDegree, double tiltDegree
                                , double* panOffset, double* tiltOffset);
 };
