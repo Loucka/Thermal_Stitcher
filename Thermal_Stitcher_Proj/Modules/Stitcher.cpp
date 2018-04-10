@@ -23,25 +23,6 @@ void Stitcher::CalculateFinalPx(double panDegree, double tiltDegree, double *pan
     *tiltOffset = ((240.00*tiltDegree/152.00)) + 1.5686 - (_centerTilt);
 }
 
-/*
- * Using the current angle input,
- *  Determine the translated angle based on our derived formulas.
-*/
-double Stitcher::CalculateFinalDegree (double degree)
-{
-    double a;
-    double finalDegree;
-
-    // Begin by calculating the unknown triangle side.
-    a = sqrt (pow (TRI_B, 2) + pow (TRI_C, 2)
-              - 2 * TRI_B * TRI_C * cos (degree * M_PI / 180.0));
-
-    // Then create a relationship between this side and our known 90 degree ratio.
-    finalDegree = (CONST_90 / CONST_HYPOT) * a;
-
-    return finalDegree;
-}
-
 void Stitcher::SaveImage ()
 {
     cv::imwrite("finalImage.jpg", _finalImage);
@@ -54,8 +35,6 @@ void Stitcher::UpdateFinalImage(double panDegree, double tiltDegree)
   double finalPanPx, finalTiltPx;
   double currentPanPx, currentTiltPx;
   _currentImage = cv::imread ("./Modules/Captures/raw_capture.png");
-  panDegree = CalculateFinalDegree(panDegree);
-  tiltDegree = CalculateFinalDegree(tiltDegree);
   CalculateFinalPx(panDegree, tiltDegree, &finalPanPx, &finalTiltPx);
   std::cout<<"\t\tFinal Degrees: P("<<panDegree<<")\tT("<<tiltDegree<<")\n";
   std::cout<<"\t\tFinal Px: P("<<finalPanPx<<")\tT("<<finalTiltPx<<")\n";
